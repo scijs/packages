@@ -1,0 +1,29 @@
+<h1 id="luminance"><a target="_blank" href="http://github.com/scijs/luminance">luminance</a></h1>
+<p>Converts an RGB image into a <a href="http://en.wikipedia.org/wiki/Grayscale">grayscale luminance</a> image.  This is built on the <a href="https://github.com/mikolalysenko/ndarray">ndarray library</a>.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="c1">//Load up a test image</span>
+<span class="kd">var</span> <span class="nx">lena</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;lena&quot;</span><span class="p">)</span>
+
+<span class="c1">//Convert to grayscale</span>
+<span class="kd">var</span> <span class="nx">grayscale_lena</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;luminance&quot;</span><span class="p">)(</span><span class="nx">lena</span><span class="p">)</span>
+
+<span class="c1">//Write the resulting png to stdout</span>
+<span class="nx">require</span><span class="p">(</span><span class="s2">&quot;save-pixels&quot;</span><span class="p">)(</span><span class="nx">grayscale_lena</span><span class="p">,</span> <span class="s2">&quot;png&quot;</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">)</span>
+</code></pre>
+<p>Which creates the following image:</p>
+<p><img src="https://raw.github.com/mikolalysenko/luminance/master/examples/lena.png"></p>
+<h2 id="install">Install</h2>
+<pre><code>npm install luminance
+</code></pre><h2 id="api">API</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">luminance</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;luminance&quot;</span><span class="p">)</span>
+</code></pre>
+<h3 id="-luminance-img-"><code>luminance(img)</code></h3>
+<p><strong>Returns</strong> A gray scale version of <code>img</code></p>
+<h3 id="-luminance-result-img-"><code>luminance(result, img)</code></h3>
+<p><strong>Returns</strong> A gray scale version of <code>img</code>, the result is stored in <code>result</code></p>
+<h3 id="-luminance-red-green-blue-"><code>luminance(red, green, blue)</code></h3>
+<p><strong>Returns</strong> A gray scale image with red, green and blue channels in the given ndarrays</p>
+<h3 id="-luminance-result-red-green-blue-"><code>luminance(result, red, green, blue)</code></h3>
+<p><strong>Returns</strong> A luminance image of red/green/blue with result stored in result.</p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

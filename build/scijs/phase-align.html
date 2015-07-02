@@ -1,0 +1,33 @@
+<h1 id="phase-align"><a target="_blank" href="http://github.com/scijs/phase-align">phase-align</a></h1>
+<p>Aligns two <a href="https://github.com/mikolalysenko/ndarray">ndarrays</a> up to a translation such that the sum of squared differences between them is minimized.  This can be used as a quick preprocess for other more detailed alignment algorithms.</p>
+<h2 id="example">Example</h2>
+<p>Here is a simple example showing how to use this code to image alignment.  First, let&apos;s start out with an image:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">lena</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;luminance&quot;</span><span class="p">)(</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;lena&quot;</span><span class="p">))</span>
+</code></pre>
+<p><img src="https://raw.github.com/mikolalysenko/phase-align/master/example/lena.png"></p>
+<p>Next, let&apos;s cut out a patch:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">patch</span> <span class="o">=</span> <span class="nx">lena</span><span class="p">.</span><span class="nx">lo</span><span class="p">(</span><span class="mi">222</span><span class="p">,</span> <span class="mi">215</span><span class="p">).</span><span class="nx">hi</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+</code></pre>
+<p>Which looks like this:</p>
+<p><img src="https://raw.github.com/mikolalysenko/phase-align/master/example/patch.png"></p>
+<p>Finally, we can use <code>phase-align</code> to find the patch in the original image like this:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;phase-align&quot;</span><span class="p">)(</span><span class="nx">patch</span><span class="p">,</span> <span class="nx">lena</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">position</span><span class="p">)</span>
+</code></pre>
+<p>Which prints out the coordinates of the upper left corner fo the patch in the original:</p>
+<pre><code>[ 222, 215 ]
+</code></pre><h2 id="install">Install</h2>
+<pre><code>npm install phase-align
+</code></pre><h2 id="-require-phase-align-patch-image-options-"><code>require(&quot;phase-align&quot;)(patch, image[, options])</code></h2>
+<p>Finds the pixel coordinates of the occurence of <code>patch</code> within the larger <code>image</code></p>
+<ul>
+<li><code>patch</code> is an ndarray to match</li>
+<li><code>image</code> is the image to match within</li>
+<li><code>options</code> is an object containing some optional parameters<ul>
+<li><code>normalize</code> Default <code>true</code>.  If set, images are normalized for intensity before matching.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Returns</strong> An array of coordinates representing the occurence of <code>patch</code> within image</p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

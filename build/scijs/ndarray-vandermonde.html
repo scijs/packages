@@ -1,0 +1,19 @@
+<h1 id="ndarray-vandermonde"><a target="_blank" href="http://github.com/scijs/ndarray-vandermonde">ndarray-vandermonde</a></h1>
+<p><a href="https://travis-ci.org/scijs/ndarray-vandermonde"><img src="https://travis-ci.org/scijs/ndarray-vandermonde.svg?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/ndarray-vandermonde"><img src="https://badge.fury.io/js/ndarray-vandermonde.svg" alt="npm version"></a></p>
+<p>Construct an ndarray vandermonde matrix</p>
+<h2 id="introduction">Introduction</h2>
+<p>A <a href="http://en.wikipedia.org/wiki/Vandermonde_matrix">Vandermonde matrix</a> is a matrix with format:</p>
+<p><img src="/docs/images/vandermonde.png" alt="Vandermonde"></p>
+<p>It&apos;s useful for least squares fits, among other things, in which you want a set of basis vectors that are successive powers of a variable evaluated at specific points. It&apos;s usually just plug and chug into QR or SVD in order to solve the least squares problem.</p>
+<h2 id="usage">Usage</h2>
+<p><code>vander( x [, N] [, reversed] )</code></p>
+<p><code>x</code> is a vector of numbers, <code>N</code> is the width of the resulting matrix (i.e. the highest power + 1; the resulting matrix is square by default), and <code>reversed</code> is a flag that will reverse the columns of the resulting matrix so that higher powers are on the left.</p>
+<p>For example,</p>
+<pre><code>var vander = require(&apos;ndarray-vandermonde&apos;),
+    ndarray = require(&apos;ndarray&apos;);
+
+var x = ndarray(Float64Array([1,2,3,4]));
+
+var y = vander(x);
+</code></pre><h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>

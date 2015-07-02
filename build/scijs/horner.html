@@ -1,0 +1,36 @@
+<h1 id="horner"><a target="_blank" href="http://github.com/scijs/horner">horner</a></h1>
+<p>Evaluates polynomials using <a href="http://en.wikipedia.org/wiki/Horner&apos;s_method">Horner&apos;s rule</a>.</p>
+<p><a href="http://travis-ci.org/scijs/horner"><img src="https://secure.travis-ci.org/scijs/horner.png" alt="build status"></a></p>
+<h1 id="example">Example</h1>
+<h2 id="real-polynomial">Real polynomial</h2>
+<p>Evaluate the polynomial <code>1 + 2 * x^2 at x = 2</code>:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">horner</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;horner&quot;</span><span class="p">)</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">horner</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mf">2.0</span><span class="p">))</span>
+</code></pre>
+<h3 id="output">Output</h3>
+<pre><code>9
+</code></pre><h2 id="complex-polynomial">Complex polynomial</h2>
+<p>Evaluate the polynomial <code>2 - 3i * x + (4 + 5i)*x^2</code> at <code>x = 1+2i</code>:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">horner</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;horner&quot;</span><span class="p">)</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">horner</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>     <span class="c1">//Real coefficients</span>
+                  <span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]</span>   <span class="c1">//Imaginary coefficients</span>
+                  <span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+</code></pre>
+<h3 id="output">Output</h3>
+<pre><code>[-24,-2]
+</code></pre><h1 id="install">Install</h1>
+<p>Install using npm:</p>
+<pre><code>npm install horner
+</code></pre><h1 id="api">API</h1>
+<h4 id="-require-horner-poly-z-"><code>require(&quot;horner&quot;)(poly, z)</code></h4>
+<p>Evaluates the polynomial at the point z</p>
+<ul>
+<li><code>poly</code> is the coefficients of the polynomial arranged in increasing degree.  If complex, is a pair of arrays, the first representing the real coefficients and the second representing the imaginary coefficients.</li>
+<li><code>z</code> is the point to evaluate the polynomial at.  Either a scalar for a real valued function or a pair for a complex number.</li>
+</ul>
+<p><strong>Returns:</strong> A scalar for real results, a pair for complex results</p>
+<p><strong>Time Complexity:</strong> <code>O(poly.length)</code></p>
+<h1 id="license">License</h1>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

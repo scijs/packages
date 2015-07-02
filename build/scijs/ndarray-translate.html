@@ -1,0 +1,23 @@
+<h1 id="ndarray-translate"><a target="_blank" href="http://github.com/scijs/ndarray-translate">ndarray-translate</a></h1>
+<p>Shifts an <a href="https://github.com/mikolalysenko/ndarray">ndarray</a> by some integer shift.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">lena</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;luminance&quot;</span><span class="p">)(</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;lena&quot;</span><span class="p">))</span>
+<span class="kd">var</span> <span class="nx">translate</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-translate&quot;</span><span class="p">)</span>
+
+<span class="nx">translate</span><span class="p">(</span><span class="nx">lena</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span>
+
+<span class="nx">require</span><span class="p">(</span><span class="s2">&quot;save-pixels&quot;</span><span class="p">)(</span><span class="nx">lena</span><span class="p">,</span> <span class="s2">&quot;png&quot;</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">)</span>
+</code></pre>
+<p>This generates the following image:</p>
+<p><img src="https://raw.github.com/mikolalysenko/ndarray-translate/master/example/shift.png"></p>
+<h2 id="install">Install</h2>
+<pre><code>npm install ndarray-translate
+</code></pre><h3 id="-require-ndarray-translate-array-shift-"><code>require(&quot;ndarray-translate&quot;)(array, shift)</code></h3>
+<p>Translates <code>array</code> by <code>shift</code> amount in place.</p>
+<ul>
+<li><code>array</code> is an ndarray</li>
+<li><code>shift</code> is a vector with length equal to the dimension of the array representing the amount to shfit by.  Coordinates for the shift get rounded to nearest integer.</li>
+</ul>
+<p><strong>Returns</strong> <code>array</code></p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

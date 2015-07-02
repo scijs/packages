@@ -1,0 +1,21 @@
+<h1 id="complex-division"><a target="_blank" href="http://github.com/scijs/complex-division">complex-division</a></h1>
+<p><a href="https://travis-ci.org/scijs/complex-division"><img src="https://travis-ci.org/scijs/complex-division.svg?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/complex-division"><img src="https://badge.fury.io/js/complex-division.svg" alt="npm version"></a>  <a href="https://david-dm.org/scijs/complex-division"><img src="https://david-dm.org/scijs/complex-division.svg" alt="Dependency Status"></a></p>
+<p>Floating point complex division</p>
+<h2 id="intro">Intro</h2>
+<p>Complex floating point division isn&apos;t quite trivial. The naive method may encounter overflow, underflow, or loss of precision due to the intermediate floating point results. A simple remedy<a href="#references">[1]</a> is:</p>
+<p><img src="docs/images/division.png" alt="Complex division"></p>
+<h2 id="usage">Usage</h2>
+<h5 id="-require-complex-division-a-b-c-d-result-"><code>require(&apos;complex-division&apos;)( a, b, c, d [, result] )</code></h5>
+<p>Calculates (a + ib)/(c + id) and returns a two-element JS array with the real and imaginary components.</p>
+<p><code>result</code> is an optional <code>Array</code> or typed array into which the output is inserted.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">cdiv</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;complex-division&apos;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">cdiv</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">);</span>
+
+<span class="c1">// result = [ 0.44, 0.08 ]</span>
+</code></pre>
+<h2 id="references">References</h2>
+<p>[1] Press, William H. <em><a href="https://books.google.com/books?id=1aAOdzK3FegC&amp;pg=PA226&amp;lpg=PA226&amp;dq=complex+division+underflow&amp;source=bl&amp;ots=3jPhF9Irii&amp;sig=JwEAckqmfBNd8dIQTrUD-Pk9dzE&amp;hl=en&amp;sa=X&amp;ei=-VZQVYDpJImRyATAoYCwBg&amp;ved=0CDwQ6AEwBA#v=onepage&amp;q=complex%20division%20underflow&amp;f=false">Numerical Recipes 3rd Edition: The Art of Scientific Computing</a></em>. Cambridge University Press, 2007.</p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>

@@ -1,0 +1,25 @@
+<h1 id="dirichlet"><a target="_blank" href="http://github.com/scijs/dirichlet">dirichlet</a></h1>
+<p>The Dirichlet (or aliased sinc) function.  Defined to be,</p>
+<pre><code>                  { 1                                   if x % n === 0
+dirichlet(n, x) = {           
+                  { sin(pi * x) / (n * sin(pi * x / n)) otherwise
+</code></pre><p>Alternatively, it is the inverse Fourier transform of the discrete rectangle function.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">dirichlet</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;dirichlet&quot;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;iota-array&quot;</span><span class="p">)(</span><span class="mi">200</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">dirichlet</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span>
+</code></pre>
+<h2 id="install">Install</h2>
+<pre><code>npm install dirichlet
+</code></pre><h2 id="api">API</h2>
+<h3 id="-require-dirichlet-n-x-"><code>require(&quot;dirichlet&quot;)(n, x)</code></h3>
+<p>Returns the value of the dirichlet function</p>
+<ul>
+<li><code>n</code> is the number of samples</li>
+<li><code>x</code> is the point at which the dirichlet function is evaluated</li>
+</ul>
+<p><strong>Returns</strong> The value of the dirichlet function at <code>x</code></p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2014 Mikola Lysenko. MIT License</p>

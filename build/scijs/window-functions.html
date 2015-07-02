@@ -1,0 +1,102 @@
+<h1 id="scijs-window-functions"><a target="_blank" href="http://github.com/scijs/window-functions">scijs-window-functions</a></h1>
+<p><a href="https://travis-ci.org/scijs/window-functions"><img src="https://travis-ci.org/scijs/window-functions.svg?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/scijs-window-functions"><img src="https://badge.fury.io/js/scijs-window-functions.svg" alt="npm version"></a>  <a href="https://david-dm.org/scijs/window-functions"><img src="https://david-dm.org/scijs/window-functions.svg" alt="Dependency Status"></a></p>
+<p>Window functions for digital signal processing</p>
+<h1 id="introduction">Introduction</h1>
+<p>Among other uses, <a href="http://en.wikipedia.org/wiki/Window_function">window functions</a> help control <a href="http://en.wikipedia.org/wiki/Spectral_leakage">spectral leakage</a> when doing Fourier Analysis. This collection of window functions is copied directly from Wikipedia. Caveat emptor.</p>
+<h2 id="usage">Usage</h2>
+<p>To require all window functions, include the top-level <code>scijs-window-functions</code> module:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">wfuncs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;scijs-window-functions&apos;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">wfuncs</span><span class="p">.</span><span class="nx">blackmanHarris</span><span class="p">(</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">101</span> <span class="p">)</span>
+</code></pre>
+<p>You can also require a single window function:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">blackmanHarris</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;scijs-window-functions/blackman-harris&apos;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">blackmanHarris</span><span class="p">(</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">101</span> <span class="p">)</span>
+</code></pre>
+<p>To calculate the value of a window function, pass the sample number and total number of samples to one of the window functions listed below, along with any additional parameters it may require. The plots below are calculated from the npm module and plotted with Fourier transform to illustrate the spectral leakage. See <a href="http://en.wikipedia.org/wiki/Window_function">the Wikipedia page on window functions</a> for more details.</p>
+<ul>
+<li><a href="#bartletthann-i-n-">Bartlett-Hann</a></li>
+<li><a href="#bartlett-i-n-">Bartlett</a></li>
+<li><a href="#blackmanharris-i-n-">Blackman-Harris</a></li>
+<li><a href="#blackmannuttall-i-n-">Blackman-Nuttall</a></li>
+<li><a href="#cosine-i-n-">Cosine</a></li>
+<li><a href="#exactblackman-i-n-">Exact Blackman</a></li>
+<li><a href="#flattop-i-n-">Flat top</a></li>
+<li><a href="#gaussian-i-n-sigma-">Gaussian</a></li>
+<li><a href="#hamming-i-n-">Hamming</a></li>
+<li><a href="#hann-i-n-">Hann</a></li>
+<li><a href="#lanczos-i-n-">Lanczos</a></li>
+<li><a href="#nuttall-i-n-">Nuttall</a></li>
+<li><a href="#rectangular-i-n-">Rectangular</a></li>
+<li><a href="#triangular-i-n-">Triangular</a></li>
+<li><a href="#tukey-i-n-alpha-">Tukey</a></li>
+<li><a href="#welch-i-n-">Welch</a></li>
+</ul>
+<h4 id="-bartletthann-i-n-"><code>bartlettHann( i, N )</code>:</h4>
+<p><img src="docs/equations/bartlett-hann-1.png" alt="Bartlett-Hann Window Equation 1"></p>
+<p><img src="docs/equations/bartlett-hann-2.png" alt="Bartlett-Hann Window Equation 2"></p>
+<p><img src="docs/plots/bartlett-hann.png" alt="Bartlett-Hann"></p>
+<h4 id="-bartlett-i-n-"><code>bartlett( i, N )</code>:</h4>
+<p><img src="docs/plots/bartlett.png" alt="Bartlett"></p>
+<h4 id="-blackman-i-n-"><code>blackman( i, N )</code>:</h4>
+<p><img src="docs/equations/blackman-1.png" alt="Blackman Window Equation 1"></p>
+<p><img src="docs/equations/blackman-2.png" alt="Blackman Window Equation 2"></p>
+<p><img src="docs/plots/blackman.png" alt="Blackman"></p>
+<h4 id="-blackmanharris-i-n-"><code>blackmanHarris( i, N )</code>:</h4>
+<p><img src="docs/equations/blackman-harris-1.png" alt="Blackman-Harris Window Equation 1"></p>
+<p><img src="docs/equations/blackman-harris-2.png" alt="Blackman-Harris Window Equation 2"></p>
+<p><img src="docs/plots/blackman-harris.png" alt="Blackman-Harris"></p>
+<h4 id="-blackmannuttall-i-n-"><code>blackmanNuttall( i, N )</code>:</h4>
+<p><img src="docs/equations/blackman-nuttall-1.png" alt="Blackman-Nuttall Window Equation 1"></p>
+<p><img src="docs/equations/blackman-nuttall-2.png" alt="Blackman-Nuttall Window Equation 2"></p>
+<p><img src="docs/plots/blackman-nuttall.png" alt="Blackman-nuttall"></p>
+<h4 id="-cosine-i-n-"><code>cosine( i, N )</code>:</h4>
+<p><img src="docs/equations/cosine.png" alt="Cosine Window Equation 1"></p>
+<p><img src="docs/plots/cosine.png" alt="Cosine"></p>
+<h4 id="-exactblackman-i-n-"><code>exactBlackman( i, N )</code>:</h4>
+<p><img src="docs/plots/exact-blackman.png" alt="Exact Blackman"></p>
+<p>The same as the Blackman window, except a0 = 0.42659 a1 = 0.49656, and a2 = 0.076849. These place zeros at the third and fourth sidelobes.</p>
+<h4 id="-flattop-i-n-"><code>flatTop( i, N )</code>:</h4>
+<p><img src="docs/equations/flattop-1.png" alt="Flat top Window Equation 1"></p>
+<p><img src="docs/equations/flattop-2.png" alt="Flat top Window Equation 2"></p>
+<p><img src="docs/plots/flattop.png" alt="Flat Top"></p>
+<h4 id="-gaussian-i-n-sigma-"><code>gaussian( i, N, sigma )</code>:</h4>
+<p>Sigma controls the width of the window.</p>
+<p><img src="docs/equations/gaussian-1.png" alt="Gaussian Window Equation 1"></p>
+<p><img src="docs/equations/gaussian-2.png" alt="Gaussian Window Equation 2"></p>
+<p><img src="docs/plots/gaussian.png" alt="Gaussian"></p>
+<h4 id="-hamming-i-n-"><code>hamming( i, N )</code>:</h4>
+<p><img src="docs/equations/hamming-1.png" alt="Hamming Window Equation 1"></p>
+<p><img src="docs/equations/hamming-2.png" alt="Hamming Window Equation 2"></p>
+<p><img src="docs/plots/hamming.png" alt="Hamming"></p>
+<h4 id="-hann-i-n-"><code>hann( i, N )</code>:</h4>
+<p><img src="docs/equations/hann.png" alt="Hann Window Equation"></p>
+<p><img src="docs/plots/hann.png" alt="Hann"></p>
+<h4 id="-lanczos-i-n-"><code>lanczos( i, N )</code>:</h4>
+<p><img src="docs/equations/lanczos.png" alt="Lanczos Window Equation"></p>
+<p><img src="docs/plots/lanczos.png" alt="Lanczos"></p>
+<h4 id="-nuttall-i-n-"><code>nuttall( i, N )</code>:</h4>
+<p><img src="docs/equations/nuttall-1.png" alt="Nuttall Window Equation 1"></p>
+<p><img src="docs/equations/nuttall-2.png" alt="Nuttall Window Equation 2"></p>
+<p><img src="docs/plots/nuttall.png" alt="Nuttall"></p>
+<h4 id="-rectangular-i-n-"><code>rectangular( i, N )</code>:</h4>
+<p><img src="docs/equations/rectangular.png" alt="Rectangular Window Equation"></p>
+<p><img src="docs/plots/rectangular.png" alt="Rectangular"></p>
+<h4 id="-triangular-i-n-"><code>triangular( i, N )</code>:</h4>
+<p><img src="docs/equations/triangular.png" alt="Triangular Window Equation"></p>
+<p><img src="docs/plots/triangular.png" alt="Triangular"></p>
+<h4 id="-tukey-i-n-alpha-"><code>tukey( i, N, alpha )</code>:</h4>
+<p>A tapered cosine window. Alpha controls the relative width of the flat section. Alpha=0 is rectangular, alpha=1 is Hann.  <img src="docs/equations/tukey.png" alt="Tukey Window Equation"></p>
+<p><img src="docs/plots/tukey.png" alt="Tukey"></p>
+<h4 id="-welch-i-n-"><code>welch( i, N )</code>:</h4>
+<p><img src="docs/equations/welch.png" alt="Welch Window Equation"></p>
+<p><img src="docs/plots/welch.png" alt="Welch"></p>
+<h2 id="testing">Testing</h2>
+<p>The tests ensure the window functions aren&apos;t returning NaN, but it&apos;s hard to have confidence in the accuracy with tests. Instead, I opted to focus on visual testing via plots and Fourier Transforms. To generate the plots, run</p>
+<pre><code class="lang-bash"><span class="nv">$ </span>npm run generate-plots
+</code></pre>
+<p>It pipes them through matplotlib. Don&apos;t worry. I realize the irony.</p>
+<h2 id="credits">Credits</h2>
+<p>Window function definitions and equation images from <a href="http://en.wikipedia.org/wiki/Window_function">Wikipedia: Window Function</a>.</p>
+<p>(c) 2015 Ricky Reusser. MIT License</p>

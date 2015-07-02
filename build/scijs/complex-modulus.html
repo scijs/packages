@@ -1,0 +1,20 @@
+<h1 id="complex-modulus"><a target="_blank" href="http://github.com/scijs/complex-modulus">complex-modulus</a></h1>
+<p><a href="https://travis-ci.org/scijs/complex-modulus"><img src="https://travis-ci.org/scijs/complex-modulus.svg?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/complex-modulus"><img src="https://badge.fury.io/js/complex-modulus.svg" alt="npm version"></a>  <a href="https://david-dm.org/scijs/complex-modulus"><img src="https://david-dm.org/scijs/complex-modulus.svg" alt="Dependency Status"></a></p>
+<p>Floating point complex modulus</p>
+<h2 id="intro">Intro</h2>
+<p>Calculating a floating point complex modulus isn&apos;t quite trivial. The naive method may encounter overflow, underflow, or loss of precision due to the intermediate floating point results. A simple remedy<a href="#references">[1]</a> is:</p>
+<p><img src="docs/images/modulus.png" alt="Complex modulus"></p>
+<h2 id="usage">Usage</h2>
+<h5 id="-require-complex-modulus-a-b-"><code>require(&apos;complex-modulus&apos;)( a, b )</code></h5>
+<p>Calculates |a + ib| and returns a number</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">cmod</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;complex-modulus&apos;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">cmod</span><span class="p">(</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">);</span>
+
+<span class="c1">// result = 5</span>
+</code></pre>
+<h2 id="references">References</h2>
+<p>[1] Press, William H. <em><a href="https://books.google.com/books?id=1aAOdzK3FegC&amp;pg=PA226&amp;lpg=PA226&amp;dq=complex+division+underflow&amp;source=bl&amp;ots=3jPhF9Irii&amp;sig=JwEAckqmfBNd8dIQTrUD-Pk9dzE&amp;hl=en&amp;sa=X&amp;ei=-VZQVYDpJImRyATAoYCwBg&amp;ved=0CDwQ6AEwBA#v=onepage&amp;q=complex%20division%20underflow&amp;f=false">Numerical Recipes 3rd Edition: The Art of Scientific Computing</a></em>. Cambridge University Press, 2007.</p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>

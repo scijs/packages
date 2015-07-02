@@ -1,0 +1,41 @@
+<h1 id="poly-mult-fft"><a target="_blank" href="http://github.com/scijs/poly-mult-fft">poly-mult-fft</a></h1>
+<p>Multiplies two polynomials together using an FFT.</p>
+<h1 id="use">Use</h1>
+<p>First install</p>
+<pre><code>npm install poly-mult-fft
+</code></pre><p>Then use as follows:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">mult</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;poly-mult-fft&quot;</span><span class="p">)</span>
+
+<span class="c1">//Compute:</span>
+<span class="c1">//</span>
+<span class="c1">//    (1 + 2*x) * (1 + x^2)</span>
+<span class="c1">//</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mult</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="c1">//Prints:</span>
+<span class="c1">//</span>
+<span class="c1">//  [1, 2, 1, 2]</span>
+<span class="c1">//</span>
+
+<span class="c1">//Also supports complex numbers.  For example, compute:</span>
+<span class="c1">//</span>
+<span class="c1">//    (i + (1+3i)*x) * (2 + 5i * x^2)</span>
+<span class="c1">//</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mult</span><span class="p">(</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
+                  <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]</span> <span class="p">))</span>
+<span class="c1">//Prints:</span>
+<span class="c1">//</span>
+<span class="c1">//    [[0, 2, 5, 15],</span>
+<span class="c1">//     [2, 6, 0, 5]]</span>
+<span class="c1">//</span>
+</code></pre>
+<h3 id="-require-poly-mult-fft-a-b-"><code>require(&quot;poly-mult-fft&quot;)(a, b)</code></h3>
+<p>Multiplies two polynomials together.</p>
+<ul>
+<li><code>a</code> is the first polynomial</li>
+<li><code>b</code> is the second polynomial</li>
+</ul>
+<p>Supports both real and complex valued polynomials.  To handle complex data, you should pass in a pair of coefficients</p>
+<p><strong>Returns:</strong> The product of the two polynomials</p>
+<p><strong>Time Complexity:</strong> <code>O((a.length + b.length) * log(a.length + b.length))</code></p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

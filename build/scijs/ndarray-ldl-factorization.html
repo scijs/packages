@@ -1,0 +1,63 @@
+<h1 id="ndarray-ldl-factorization"><a target="_blank" href="http://github.com/scijs/ndarray-ldl-factorization">ndarray-ldl-factorization</a></h1>
+<p><a href="https://npmjs.org/package/ndarray-ldl-factorization"></a>
+<a href="https://travis-ci.org/scijs/ndarray-ldl-factorization"><img src="https://travis-ci.org/scijs/ndarray-ldl-factorization.svg" alt="Build Status"></a>
+<a href="https://david-dm.org/scijs/ndarray-ldl-factorization"></a></p>
+<blockquote>
+<p>LDL Decomposition for ndarrays</p>
+</blockquote>
+<h2 id="installation">Installation</h2>
+<pre><code class="lang-bash"><span class="nv">$ </span>npm install ndarray-ldl-factorization
+</code></pre>
+<p>For use in the browser, use <a href="https://github.com/substack/node-browserify">browserify</a>.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ldl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span> <span class="s1">&apos;ndarray-ldl-factorization&apos;</span> <span class="p">);</span>
+</code></pre>
+<h4 id="ldl-a-l-d-">ldl(A, L, d)</h4>
+<p>This function calculates the LDL decomposition of matrix <code>A = LDL^t</code>, where <code>L</code> is a lower-unit triangular matrix and <code>D</code> is a diagonal matrix. Consult the book <em>Matrix computations</em> (3rd ed.) by Gene H. Golub and Charles F. Van Loan for further information. The function takes <code>L</code> and <code>d</code>, the vector of diagonal elements of <code>D</code>, as arguments and changes them during execution. If the function completes without error, it returns <code>true</code>, otherwise <code>false</code>.</p>
+<h2 id="examples">Examples</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray&apos;</span><span class="p">),</span>
+    <span class="nx">show</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-show&apos;</span><span class="p">),</span>
+    <span class="nx">ldl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span> <span class="s1">&apos;ndarray-ldl-factorization&apos;</span> <span class="p">),</span>
+    <span class="nx">pool</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-scratch&apos;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">(</span><span class="k">new</span> <span class="nx">Float64Array</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]),</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">L</span> <span class="o">=</span> <span class="nx">pool</span><span class="p">.</span><span class="nx">zeros</span><span class="p">(</span> <span class="nx">A</span><span class="p">.</span><span class="nx">shape</span><span class="p">,</span> <span class="nx">A</span><span class="p">.</span><span class="nx">dtype</span> <span class="p">);</span>
+<span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">pool</span><span class="p">.</span><span class="nx">zeros</span><span class="p">(</span> <span class="p">[</span> <span class="nx">A</span><span class="p">.</span><span class="nx">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">],</span> <span class="nx">A</span><span class="p">.</span><span class="nx">dtype</span><span class="p">);</span>
+
+<span class="nx">ldl</span><span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="nx">L</span><span class="p">,</span> <span class="nx">d</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">&apos;A:\n&apos;</span> <span class="o">+</span> <span class="nx">show</span><span class="p">(</span><span class="nx">A</span><span class="p">),</span> <span class="s1">&apos;\n&apos;</span> <span class="p">);</span>
+
+<span class="cm">/*  </span>
+<span class="cm">   9.000   -1.000    2.000</span>
+<span class="cm">  -1.000    8.000   -5.000</span>
+<span class="cm">   2.000   -5.000    7.000</span>
+<span class="cm">/*</span>
+
+<span class="cm">console.log( &apos;L:\n&apos; + show(L) );</span>
+
+<span class="cm">/*</span>
+<span class="cm">   1.000   -0.111    0.222</span>
+<span class="cm">   0.000    1.000   -0.606</span>
+<span class="cm">   0.000    0.000    1.000</span>
+<span class="cm">*/</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">&apos;d:\n&apos;</span> <span class="o">+</span> <span class="nx">show</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> 9.000    7.889    3.662</span>
+<span class="cm">*/</span>
+</code></pre>
+<p>To run the example code from the top-level application directory,</p>
+<pre><code class="lang-bash"><span class="nv">$ </span>node ./examples/index.js
+</code></pre>
+<h2 id="tests">Tests</h2>
+<h3 id="unit">Unit</h3>
+<p>Unit tests use the <a href="https://github.com/substack/tape">Tape</a> test framework. To calculate code coverage, the package makes use of <a href="https://github.com/substack/coverify">Coverify</a>.To run the tests, execute the following command in the top-level application directory:</p>
+<pre><code class="lang-bash"><span class="nv">$ </span>npm <span class="nb">test</span>
+</code></pre>
+<hr>
+<h2 id="license">License</h2>
+<p><a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h2 id="copyright">Copyright</h2>
+<p>Copyright &#xA9; 2015. Philipp Burckhardt.</p>

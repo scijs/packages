@@ -1,0 +1,44 @@
+<h1 id="ndarray-linear-solve"><a target="_blank" href="http://github.com/scijs/ndarray-linear-solve">ndarray-linear-solve</a></h1>
+<p>Solves a system of linear equations, similar to <a href="http://www.mathworks.com/help/matlab/ref/mldivide.html">MATLAB&apos;s backslash operator</a>, but not yet as sophisticated.  (But maybe it will be someday soon!  Pull requests welcome!)</p>
+<p><a href="https://ci.testling.com/substack/ndarray-linear-solve"><img src="https://ci.testling.com/substack/ndarray-linear-solve.png" alt="testling badge"></a></p>
+<p><a href="http://travis-ci.org/substack/ndarray-linear-solve"><img src="https://secure.travis-ci.org/substack/ndarray-linear-solve.png" alt="build status"></a></p>
+<h1 id="example">example</h1>
+<pre><code class="lang-js"><span class="kd">var</span> <span class="nx">solve</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-linear-solve&apos;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">show</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-show&apos;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray&apos;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">([</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span> <span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">B</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">([</span> <span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span> <span class="p">])</span>
+<span class="kd">var</span> <span class="nx">X</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">(</span><span class="k">new</span> <span class="nx">Float64Array</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">solve</span><span class="p">(</span><span class="nx">X</span><span class="p">,</span> <span class="nx">A</span><span class="p">,</span> <span class="nx">B</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&apos;input:\n&apos;</span> <span class="o">+</span> <span class="nx">show</span><span class="p">(</span><span class="nx">A</span><span class="p">),</span> <span class="s1">&apos;\n&apos;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&apos;solution:\n&apos;</span> <span class="o">+</span> <span class="nx">show</span><span class="p">(</span><span class="nx">X</span><span class="p">));</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&apos;matrix is singular&apos;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<p>output:</p>
+<pre><code>input:
+   2.000    1.000   -1.000
+  -3.000   -1.000    2.000
+  -2.000    1.000    2.000 
+
+solution:
+   2.000    3.000   -1.000
+</code></pre><h1 id="methods">methods</h1>
+<pre><code class="lang-js"><span class="kd">var</span> <span class="nx">solve</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-linear-solve&apos;</span><span class="p">)</span>
+</code></pre>
+<h2 id="var-solution-solve-x-a-b-">var solution = solve(X, A, B)</h2>
+<p>Solves the linear system, <code>AX = B</code> for <code>X</code></p>
+<ul>
+<li><code>X</code> is a vector into which the solution is written</li>
+<li><code>A</code> is a matrix encoded as an ndarray</li>
+<li><code>B</code> is a vector, encoded as an ndarray</li>
+</ul>
+<p><strong>Returns</strong> <code>true</code> if the matrix has a solution, otherwise <code>false</code>.</p>
+<h1 id="install">install</h1>
+<p>With <a href="https://npmjs.org">npm</a> do:</p>
+<pre><code>npm install ndarray-linear-solve
+</code></pre><h1 id="license">license</h1>
+<p>MIT</p>

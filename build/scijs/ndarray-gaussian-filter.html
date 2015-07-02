@@ -1,0 +1,23 @@
+<h1 id="ndarray-gaussian-filter"><a target="_blank" href="http://github.com/scijs/ndarray-gaussian-filter">ndarray-gaussian-filter</a></h1>
+<p>An FFT based Gaussian filter for ndarrays.</p>
+<h1 id="example">Example</h1>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">lena</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;luminance&quot;</span><span class="p">)(</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;lena&quot;</span><span class="p">))</span>
+<span class="kd">var</span> <span class="nx">savePixels</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;save-pixels&quot;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">blur</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-gaussian-filter&quot;</span><span class="p">)</span>
+<span class="nx">savePixels</span><span class="p">(</span><span class="nx">blur</span><span class="p">(</span><span class="nx">lena</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="s2">&quot;png&quot;</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">)</span>
+</code></pre>
+<p>Writes the following png to stdout:</p>
+<p><img src="https://raw.github.com/mikolalysenko/ndarray-gaussian-filter/master/example/blur.png"></p>
+<h1 id="install">Install</h1>
+<pre><code>npm install ndarray-gaussian-filter
+</code></pre><h1 id="api">API</h1>
+<h3 id="-require-ndarray-gaussian-filter-array-radius-wrap-"><code>require(&quot;ndarray-gaussian-filter&quot;)(array,radius[,wrap])</code></h3>
+<p>Filters an ndarray using a Gaussian filter.</p>
+<ul>
+<li><code>array</code> is an ndarray</li>
+<li><code>sigma</code> is the radius of the Gaussian filter. Can be either a scalar or array</li>
+<li><code>wrap</code> is checks whether the filter is applied as a circular convolution or uses <code>0</code> boundary. Default is <code>false</code>. Can be set as an array to select boundary conditions independently for each axis.</li>
+</ul>
+<p><strong>Returns</strong> <code>array</code></p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2014 Mikola Lysenko. MIT License</p>

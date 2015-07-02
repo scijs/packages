@@ -1,0 +1,35 @@
+<h1 id="ndarray-lup-solve"><a target="_blank" href="http://github.com/scijs/ndarray-lup-solve">ndarray-lup-solve</a></h1>
+<p><a href="https://travis-ci.org/scijs/ndarray-lup-solve"><img src="https://travis-ci.org/scijs/ndarray-lup-solve.svg?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/ndarray-lup-solve"><img src="https://badge.fury.io/js/ndarray-lup-solve.svg" alt="npm version"></a>  <a href="https://david-dm.org/scijs/ndarray-lup-solve"><img src="https://david-dm.org/scijs/ndarray-lup-solve.svg" alt="Dependency Status"></a></p>
+<p>Solve ndarray Ax=b via LU factorization with pivoting</p>
+<h2 id="introduction">Introduction</h2>
+<p>Given an <a href="https://www.npmjs.com/package/ndarray-lup-factorization">LUP factorization</a>, this module solves for x in Ax = b. More precisely, it solves for x in LUx = Pb.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">lup</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-lup-factorization&apos;</span><span class="p">),</span>
+    <span class="nx">solve</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-lup-solve&apos;</span><span class="p">),</span>
+    <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray&apos;</span><span class="p">),</span>
+    <span class="nx">pool</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-pool&apos;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">([</span><span class="mi">13</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">107</span><span class="p">])</span>
+
+<span class="c1">// In-place LUP factorization:</span>
+<span class="nx">lup</span><span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="nx">A</span><span class="p">,</span> <span class="nx">P</span><span class="p">)</span>
+<span class="nx">solve</span><span class="p">(</span> <span class="nx">A</span><span class="p">,</span> <span class="nx">A</span><span class="p">,</span> <span class="nx">P</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span>
+
+<span class="c1">// b now contains the answer x: [2,5,4,3]</span>
+<span class="c1">// A and P are unchanged and can be re-used</span>
+</code></pre>
+<h2 id="usage">Usage</h2>
+<h4 id="-require-ndarray-lup-solve-l-u-p-b-work-"><code>require(&apos;ndarray-lup-solve&apos;)( L, U, P, b [, work] )</code></h4>
+<ul>
+<li><code>L</code>: The n x n ndarray lower-triangular portion of the LUP factorization. The diagonal entries are implicitly assumed to be 1. Unchanged by the algorithm.</li>
+<li><code>U</code>: The n x n ndarray upper-triangular portion of the LUP factorization. Unchanged by the algorithm.</li>
+<li><code>P</code>: An <code>Array</code> of length n containg the permutation</li>
+<li><code>b</code>: An ndarray of length n containing the righthand side of Ax = b</li>
+<li><code>work</code>: (optional) A vector used to permute the entries. If not provided, it is allocated and released into an <code>ndarray-scratch</code> typed vector pool.</li>
+</ul>
+<p>Returns <code>true</code> on successful completion; <code>false</code> otherwise.</p>
+<h4 id="-require-ndarray-lup-solve-lu-lu-p-b-work-"><code>require(&apos;ndarray-lup-solve&apos;)( LU, LU, P, b [, work] )</code></h4>
+<p>If the first two arguments are identical then it&apos;s understood that both L and U are stored in a single matrix with the diagonal entries of L (all unity) omitted. Usage and behavior is otherwise identical.</p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>

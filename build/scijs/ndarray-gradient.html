@@ -1,0 +1,45 @@
+<h1 id="ndarray-gradient"><a target="_blank" href="http://github.com/scijs/ndarray-gradient">ndarray-gradient</a></h1>
+<p>Computes the gradient of an ndarray using a 2-point central finite difference template.</p>
+<h1 id="example">Example</h1>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">pack</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-pack&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">pool</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-scratch&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">grad</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-gradient&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">show</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-show&apos;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">X</span> <span class="o">=</span> <span class="nx">pack</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+
+<span class="c1">//Compute gradient of X</span>
+<span class="kd">var</span> <span class="nx">dX</span> <span class="o">=</span> <span class="nx">grad</span><span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">zero</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span> <span class="nx">X</span><span class="p">)</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&apos;grad(X) = \n&apos;</span><span class="p">,</span> <span class="nx">show</span><span class="p">(</span><span class="nx">dX</span><span class="p">))</span>
+</code></pre>
+<p>Output:</p>
+<pre><code>grad(X) =
+   0.000    0.000    0.000
+  -0.500    0.000    0.500
+   0.000    0.000    0.000
+
+   0.000   -0.500    0.000
+   0.000    0.000    0.000
+   0.000    0.500    0.000
+</code></pre><h1 id="install">Install</h1>
+<pre><code>npm install ndarray-gradient
+</code></pre><h1 id="api">API</h1>
+<h3 id="-require-ndarray-gradient-dst-src-bc-"><code>require(&apos;ndarray-gradient&apos;)(dst, src[, bc])</code></h3>
+<p>Computes the gradient of <code>src</code> storing the result into <code>dst</code>.</p>
+<ul>
+<li><code>dst</code> is an array of gradient values.  The shape of <code>dst</code> must be the shape of <code>src</code> with one additional dimension for the components of the gradient</li>
+<li><code>src</code> is the array to differentiate</li>
+<li><p><code>bc</code> is an array of boundary conditions.  The boundary conditions are encoded as string values and must be one of the following values:</p>
+<ul>
+<li><code>&apos;clamp&apos;</code> (Default) clamp boundary edges to boundary</li>
+<li><code>&apos;mirror&apos;</code> mirror values across the boundary</li>
+<li><code>&apos;wrap&apos;</code> wrap values across boundary</li>
+</ul>
+</li>
+</ul>
+<p><strong>Returns</strong> <code>dst</code></p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2014 Mikola Lysenko. MIT License</p>

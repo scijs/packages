@@ -1,0 +1,32 @@
+<h1 id="ndarray-fft"><a target="_blank" href="http://github.com/scijs/ndarray-fft">ndarray-fft</a></h1>
+<p>A fast Fourier transform implementation for <a href="https://github.com/mikolalysenko/ndarray">ndarrays</a>.  You can use this to do image processing operations on big, higher dimensional typed arrays in JavaScript.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">zeros</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;zeros&quot;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">ops</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-ops&quot;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">fft</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-fft&quot;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">ops</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="nx">zeros</span><span class="p">([</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">]))</span>
+  <span class="p">,</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">ops</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="nx">zeros</span><span class="p">([</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">]))</span>
+
+<span class="c1">//Forward transform x/y</span>
+<span class="nx">fft</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span>
+
+<span class="c1">//Invert transform</span>
+<span class="nx">fft</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span>
+</code></pre>
+<h2 id="install">Install</h2>
+<p>Via npm:</p>
+<pre><code>npm install ndarray-fft
+</code></pre><h3 id="-require-ndarray-fft-dir-x-y-"><code>require(&quot;ndarray-fft&quot;)(dir, x, y)</code></h3>
+<p>Executes a fast Fourier transform on the complex valued array x/y.  </p>
+<ul>
+<li><code>dir</code> - Either +/- 1.  Determines whether to use a forward or inverse FFT</li>
+<li><code>x</code> the real part of the signal, encoded as an ndarray</li>
+<li><code>y</code> the imaginary part of the signal, encoded as an ndarray</li>
+</ul>
+<p><code>x</code> and <code>y</code> are transformed in place.</p>
+<p><strong>Note</strong> This code is fastest when the components of the shapes arrays are all powers of two.  For non-power of two shapes, Bluestein&apos;s fft is used which is somewhat slower.</p>
+<p><strong>Note2</strong> The inverse FFT is scaled by 1/N, forward FFT is unnormalized.</p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2013 Mikola Lysenko.  MIT License.</p>
+<p>Radix 2 FFT based on code by Paul Bourke.</p>

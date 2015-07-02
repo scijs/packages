@@ -1,0 +1,34 @@
+<h1 id="ndarray-homography"><a target="_blank" href="http://github.com/scijs/ndarray-homography">ndarray-homography</a></h1>
+<p>Applies a homography to an ndarray.</p>
+<h1 id="example">Example</h1>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">imshow</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-imshow&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">baboon</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;baboon-image&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">luminance</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;luminance&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">applyHomography</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-homography&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">scratch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-scratch&apos;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">baboonGrey</span> <span class="o">=</span> <span class="nx">luminance</span><span class="p">(</span>
+  <span class="nx">scratch</span><span class="p">.</span><span class="nx">zeros</span><span class="p">([</span><span class="nx">baboon</span><span class="p">.</span><span class="nx">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">baboon</span><span class="p">.</span><span class="nx">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span>
+  <span class="nx">baboon</span><span class="p">)</span>
+
+<span class="nx">imshow</span><span class="p">(</span><span class="nx">applyHomography</span><span class="p">(</span>
+  <span class="nx">scratch</span><span class="p">.</span><span class="nx">zeros</span><span class="p">(</span><span class="nx">baboonGrey</span><span class="p">.</span><span class="nx">shape</span><span class="p">),</span>
+  <span class="nx">baboonGrey</span><span class="p">,</span>
+  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+   <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">))</span>
+</code></pre>
+<h1 id="install">Install</h1>
+<pre><code>npm install ndarray-homography
+</code></pre><h1 id="api">API</h1>
+<h3 id="-require-ndarray-homography-dest-src-m-"><code>require(&apos;ndarray-homography&apos;)(dest, src, M)</code></h3>
+<p>Applies a <a href="http://en.wikipedia.org/wiki/Homography">homography</a> to an ndarray.</p>
+<ul>
+<li><code>dest</code> is a destination image, which has the same size as the input image</li>
+<li><code>src</code> is the input image</li>
+<li><code>M</code> is a homography encoded as a flattened matrix in column major order (consistent with OpenGL&apos;s format)</li>
+</ul>
+<p><strong>Returns</strong> <code>dest</code></p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2014 Mikola Lysenko. MIT License</p>

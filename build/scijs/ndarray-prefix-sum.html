@@ -1,0 +1,25 @@
+<h1 id="ndarray-prefix-sum"><a target="_blank" href="http://github.com/scijs/ndarray-prefix-sum">ndarray-prefix-sum</a></h1>
+<p>Computes a <a href="http://en.wikipedia.org/wiki/Prefix_sum">prefix sum</a> of an array, or in higher dimensions the <a href="http://en.wikipedia.org/wiki/Summed_area_table">summed area table</a> of an image.  Works both in node.js and in the browser.  Built on top of <a href="https://github.com/mikolalysenko/ndarray">ndarray</a>.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray&quot;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">prefixSum</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-prefix-sum&quot;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">(</span><span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]))</span>
+
+<span class="nx">prefixSum</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+
+<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">x</span><span class="p">.</span><span class="nx">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="install">Install</h2>
+<pre><code>npm install ndarray-prefix-sum
+</code></pre><h2 id="api">API</h2>
+<h3 id="-require-ndarray-prefix-sum-array-"><code>require(&quot;ndarray-prefix-sum&quot;)(array)</code></h3>
+<p>Computes the prefix sum of <code>array</code> in place.</p>
+<ul>
+<li><code>array</code> is an ndarray</li>
+</ul>
+<p><strong>Returns</strong> <code>array</code></p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

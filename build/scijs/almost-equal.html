@@ -1,0 +1,32 @@
+<h1 id="almost-equal"><a target="_blank" href="http://github.com/scijs/almost-equal">almost-equal</a></h1>
+<p>Checks when two floats are almost equal.</p>
+<h1 id="use">Use</h1>
+<p>First install using npm:</p>
+<pre><code>npm install almost-equal
+</code></pre><p>Then use as follows:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">almostEqual</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;almost-equal&quot;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">100</span>
+  <span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">+</span> <span class="mi">1</span><span class="nx">e</span><span class="o">-</span><span class="mi">12</span>
+
+<span class="c1">//Check if a == b up to float precision</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">almostEqual</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">almostEqual</span><span class="p">.</span><span class="nx">FLT_EPSILON</span><span class="p">,</span> <span class="nx">almostEqual</span><span class="p">.</span><span class="nx">FLT_EPSILON</span><span class="p">))</span>
+
+<span class="c1">//Check if a == b up to double precision</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">almostEqual</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">almostEqual</span><span class="p">.</span><span class="nx">DBL_EPSILON</span><span class="p">,</span> <span class="nx">almostEqual</span><span class="p">.</span><span class="nx">DBL_EPSILON</span><span class="p">))</span>
+</code></pre>
+<h3 id="-almostequal-a-b-absolutetolerance-relativetolerance-"><code>almostEqual(a, b, absoluteTolerance, relativeTolerance)</code></h3>
+<p>Checks if two floats are within the given tolerances of one another using the formula:</p>
+<pre><code>|a - b| &lt; max(absoluteTolerance, min(|a|, |b|) * relativeTolerance)
+</code></pre><ul>
+<li><code>a</code> and <code>b</code> are the two numbers to comapre</li>
+<li><code>absoluteTolerance</code> is a fixed minimal tolerance (set to 0 to ignore)</li>
+<li><code>relativeTolerance</code> is a tolerance that scales with a/b (set to 0 to ignore)</li>
+</ul>
+<p><strong>Returns</strong> <code>true</code> if <code>a</code> and <code>b</code> are approximately equal</p>
+<h3 id="-almostequal-flt_epsilon-"><code>almostEqual.FLT_EPSILON</code></h3>
+<p>Floating point (32-bit) epsilon</p>
+<h3 id="-almostequal-dbl_epsilon-"><code>almostEqual.DBL_EPSILON</code></h3>
+<p>Double precision (64-bit) epsilon</p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>
