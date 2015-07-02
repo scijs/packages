@@ -1,0 +1,47 @@
+<h1 id="ndarray-scratch"><a target="_blank" href="http://github.com/scijs/ndarray-scratch">ndarray-scratch</a></h1>
+<p>A simple wrapper for typedarray-pool.  I got tired of manually constructing ndarrays from typedarrays, and so this module saves some keystrokes/sanity.</p>
+<p><a href="https://ci.testling.com/mikolalysenko/ndarray-scratch"><img src="https://ci.testling.com/mikolalysenko/ndarray-scratch.png" alt="testling badge"></a></p>
+<p><a href="http://travis-ci.org/mikolalysenko/ndarray-scratch"><img src="https://secure.travis-ci.org/mikolalysenko/ndarray-scratch.png" alt="build status"></a></p>
+<h1 id="example">Example</h1>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">pool</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-scratch&quot;</span><span class="p">)</span>
+
+<span class="c1">//Create a temporary typed array</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">pool</span><span class="p">.</span><span class="nx">malloc</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">])</span>
+
+<span class="c1">//Do stuff with x</span>
+
+<span class="c1">//Release x</span>
+<span class="nx">pool</span><span class="p">.</span><span class="nx">free</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+</code></pre>
+<h1 id="install">Install</h1>
+<pre><code>npm install ndarray-scratch
+</code></pre><h1 id="api">API</h1>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">pool</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-pool&quot;</span><span class="p">)</span>
+</code></pre>
+<h3 id="-pool-malloc-shape-dtype-"><code>pool.malloc(shape[, dtype])</code></h3>
+<p>Allocates a temporary ndarray</p>
+<ul>
+<li><code>shape</code> is the shape of the array to allocate</li>
+<li><code>dtype</code> is the dtype of the array to allocate (default <code>&quot;double&quot;</code>)</li>
+</ul>
+<p><strong>Returns</strong> a temporary ndarray</p>
+<h3 id="-pool-zeros-shape-dtype-"><code>pool.zeros(shape[,dtype])</code></h3>
+<p>Creates a scratch ndarray initialized to <code>0</code></p>
+<ul>
+<li><code>shape</code> is the shape of the resulting array</li>
+<li><code>dtype</code> is the datatype of the array (default <code>&quot;double&quot;</code>)</li>
+</ul>
+<p><strong>Returns</strong> A temporary ndarray initialized to 0</p>
+<h3 id="-pool-free-array-"><code>pool.free(array)</code></h3>
+<p>Releases a temporary ndarray</p>
+<ul>
+<li><code>array</code> is the ndarray to release.</li>
+</ul>
+<h3 id="-pool-clone-array-"><code>pool.clone(array)</code></h3>
+<p>Creates a copy of an ndarray with row-major order.</p>
+<ul>
+<li><code>array</code> is an ndarray</li>
+</ul>
+<p><strong>Returns</strong> A temporary copy of <code>array</code></p>
+<h1 id="credits">Credits</h1>
+<p>(c) 2013-2014 Mikola Lysenko. MIT License</p>

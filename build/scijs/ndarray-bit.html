@@ -1,0 +1,25 @@
+<h1 id="ndarray-bit"><a target="_blank" href="http://github.com/scijs/ndarray-bit">ndarray-bit</a></h1>
+<p>An <a href="https://github.com/mikolalysenko/ndarray">ndarray</a> of bits.</p>
+<p><a href="https://ci.testling.com/mikolalysenko/ndarray-bit"><img src="https://ci.testling.com/mikolalysenko/ndarray-bit.png" alt="testling badge"></a></p>
+<p><a href="http://travis-ci.org/mikolalysenko/ndarray-bit"><img src="https://secure.travis-ci.org/mikolalysenko/ndarray-bit.png" alt="build status"></a></p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ndbits</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-bit&quot;</span><span class="p">)</span>
+
+<span class="c1">//Create a 100x100 bit mask</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">ndbits</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+
+<span class="nx">x</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+
+<span class="nx">x</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="c1">//Returns true</span>
+</code></pre>
+<h2 id="install">Install</h2>
+<pre><code class="lang-sh">npm install ndarray-bit
+</code></pre>
+<h3 id="-require-ndarray-bit-shape-"><code>require(&quot;ndarray-bit&quot;)(shape)</code></h3>
+<p>Creates an ndarray of bits initialized to shape.</p>
+<ul>
+<li><code>shape</code> is the shape of the bit array</li>
+</ul>
+<p><strong>Returns</strong> An ndarray of bits.  The underlying store is an instance of <a href="https://github.com/mikolalysenko/minimal-bit-array"><code>minimal-bit-array</code></a>.</p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

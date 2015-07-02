@@ -1,12 +1,11 @@
 # packages
 
-A list of packages that fall under the [stack.gl](http://stack.gl) umbrella,
-all wrapped up in a single page for you to jump around in.
+A directory of packages in the [scijs ecosystem](http://scijs.net).
 
 ## Contributing
 
-Simply add your repository to the
-[wiki list](https://github.com/stackgl/packages/wiki/Packages), and it'll
+Add your repository to the
+[wiki list](https://github.com/scijs/packages/wiki/Packages), and it'll
 be included next time the packages site is built. Soon, this will be automatic.
 
 Note that each category is marked up with a heading, and each list item
@@ -33,7 +32,7 @@ When the site updates, an iframe will be used in its place.
 To get the site running locally:
 
 ``` bash
-git clone git@github.com:stackgl/packages.git
+git clone git@github.com:scijs/packages.git
 cd packages
 npm install
 npm start

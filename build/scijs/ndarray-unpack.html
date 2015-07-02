@@ -1,0 +1,20 @@
+<h1 id="ndarray-unpack"><a target="_blank" href="http://github.com/scijs/ndarray-unpack">ndarray-unpack</a></h1>
+<p>Converts an <a href="https://github.com/mikolalysenko/ndarray">ndarray</a> into an array-of-native-arrays.  (Same format used by <a href="http://www.numericjs.com/">numeric.js</a>).  Like all ndarray modules this works both in node.js and in the browser.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="c1">//Create an ndarray and set a value</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;zeros&quot;</span><span class="p">)([</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="nx">x</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">//Convert ndarray into array-of-arrays</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;unpack&quot;</span><span class="p">)(</span><span class="nx">x</span><span class="p">))</span>
+</code></pre>
+<h2 id="install">Install</h2>
+<pre><code>npm install ndarray-unpack
+</code></pre><h3 id="-require-ndarray-unpack-array-"><code>require(&quot;ndarray-unpack&quot;)(array)</code></h3>
+<p>Converts <code>array</code> into an array-of-arrays style array.</p>
+<ul>
+<li><code>array</code> is an ndarray</li>
+</ul>
+<p><strong>Returns</strong> An array-of-arrays having the same contents as <code>array</code></p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

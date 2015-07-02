@@ -1,0 +1,74 @@
+<h1 id="ndarray-blas-level1"><a target="_blank" href="http://github.com/scijs/ndarray-blas-level1">ndarray-blas-level1</a></h1>
+<p><a href="https://travis-ci.org/scijs/ndarray-blas-level1"><img src="https://travis-ci.org/scijs/ndarray-blas-level1.svg?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/ndarray-blas-level1"><img src="https://badge.fury.io/js/ndarray-blas-level1.svg" alt="npm version"></a>  <a href="https://david-dm.org/scijs/ndarray-blas-level1"><img src="https://david-dm.org/scijs/ndarray-blas-level1.svg" alt="Dependency Status"></a></p>
+<p><a href="http://www.netlib.org/blas/">BLAS Level 1 operations</a> for <a href="https://github.com/scijs/ndarray">ndarrays</a></p>
+<p><em>A quick note on why this exists</em>: The goal is not to reinvent the wheel. There are lots of implementations of BLAS out there. Even for JS. There&apos;s a <a href="https://www.npmjs.com/package/lapack">nodejs wrapper for LAPACK</a>. Depending on what you need, maybe you should use that. The goal of this is to bring standardized BLAS operations to <a href="https://github.com/scijs/ndarray">ndarrays</a> so that algorithms can be made as future-resistant as possible by writing them in terms of standardized, easily-translatable operations.</p>
+<h2 id="usage">Usage</h2>
+<p>This library implements the basic vector operations of the Level 1 Basic Linear Algebra Subprograms (BLAS). Many of these functions are also implemented in <a href="https://github.com/scijs/ndarray-ops">ndarray-ops</a>&#x2014;which also has functions that are not included in BLAS. So the right answer is probably some blend of the two. This library exists mainly to frame things in a relatively standard, coherent framework.</p>
+<p><em>NB: This library performs no checks to ensure you&apos;re only passing one-dimensional vectors. It simply iterates across the first dimension of the array, so if you pass it higher-dimensional arrays, don&apos;t expect a meaningful result.</em></p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Operation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>swap(x,y)</code></td>
+<td><img src="/docs/images/swap.png" alt="swap"></td>
+<td>Swap the elements of x and y</td>
+</tr>
+<tr>
+<td><code>scal(alpha,x)</code></td>
+<td><img src="/docs/images/scal.png" alt="scal"></td>
+<td>Multiple vector x by scalar alpha</td>
+</tr>
+<tr>
+<td><code>copy(x,y)</code></td>
+<td><img src="/docs/images/copy.png" alt="copy"></td>
+<td>Copy x into y</td>
+</tr>
+<tr>
+<td><code>axpy(alpha, x, y)</code></td>
+<td><img src="/docs/images/axpy.png" alt="axpy"></td>
+<td>Multiple x by alpha and add it to y</td>
+</tr>
+<tr>
+<td><code>cpsc(alpha, x, y)</code></td>
+<td><img src="/docs/images/cpsc.png" alt="cpsc"></td>
+<td>Multiply x by alpha and assign it to y</td>
+</tr>
+<tr>
+<td><code>dot(x,y)</code></td>
+<td><img src="/docs/images/dot.png" alt="dot"></td>
+<td>Calculate the inner product of x and y.</td>
+</tr>
+<tr>
+<td><code>nrm2(x)</code></td>
+<td><img src="/docs/images/nrm2.png" alt="nrm2"></td>
+<td>Calculate the 2-norm of x</td>
+</tr>
+<tr>
+<td><code>asum(x)</code></td>
+<td><img src="/docs/images/asum.png" alt="asum"></td>
+<td>Calculate the 1-norm of x</td>
+</tr>
+<tr>
+<td><code>iamax(x)</code></td>
+<td><img src="/docs/images/iamax.png" alt="asum"></td>
+<td>the argmax of x</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example">Example</h2>
+<p>Usage should be pretty straightforward. There aren&apos;t really any options or variations.</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">blas1</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-blas-level1&apos;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]);</span>
+
+<span class="nx">blas1</span><span class="p">.</span><span class="nx">axpy</span><span class="p">(</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="p">);</span>
+</code></pre>
+<h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>
