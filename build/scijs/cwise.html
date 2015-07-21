@@ -1,15 +1,15 @@
 <h1 id="cwise"><a target="_blank" href="http://github.com/scijs/cwise">cwise</a></h1>
 <p>This library can be used to generate cache efficient map/reduce operations for <a href="http://github.com/mikolalysenko/ndarray">ndarrays</a>.</p>
-<p><a href="http://github.com/hughsk/stability-badges"><img src="https://rawgithub.com/hughsk/stability-badges/master/dist/stable.svg" alt="stable"></a></p>
-<h1 id="usage">Usage</h1>
-<p>First, install using npm:</p>
-<pre><code>npm install cwise
-</code></pre><p>Then you can create an ndarray operation as follows:</p>
+<p><a href="http://travis-ci.org/scijs/cwise"><img src="https://secure.travis-ci.org/scijs/cwise.png" alt="build status"></a></p>
+<h1 id="examples">Examples</h1>
+<p>For brevity, we will assume the following precedes each example: </p>
 <pre><code class="lang-javascript"><span class="c1">//Import libraries</span>
 <span class="kd">var</span> <span class="nx">cwise</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;cwise&quot;</span><span class="p">)</span>
   <span class="p">,</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray&quot;</span><span class="p">)</span>
-
-<span class="c1">//Create operation</span>
+</code></pre>
+<h2 id="adding-two-arrays">Adding two arrays</h2>
+<p>The array equivalent of <code>+=</code>:</p>
+<pre><code class="lang-javascript"><span class="c1">//Create operation</span>
 <span class="kd">var</span> <span class="nx">addeq</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
     <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">],</span>
     <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
@@ -31,7 +31,116 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<h2 id="-require-cwise-user_args-"><code>require(&quot;cwise&quot;)(user_args)</code></h2>
+<h2 id="multiply-an-array-with-a-scalar">Multiply an array with a scalar</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">muls</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
+  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;scalar&quot;</span><span class="p">],</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">a</span> <span class="o">*=</span> <span class="nx">s</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1">//Example usage:</span>
+<span class="nx">muls</span><span class="p">(</span><span class="nx">array</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+</code></pre>
+<h2 id="initialize-an-array-with-a-grid-with-the-first-index">Initialize an array with a grid with the first index</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">mgrid</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
+  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">],</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">a</span> <span class="o">=</span> <span class="nx">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1">//Example usage:</span>
+<span class="kd">var</span> <span class="nx">X</span> <span class="o">=</span> <span class="nx">mgrid</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">(</span><span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">128</span><span class="p">)))</span>
+</code></pre>
+<h2 id="compute-2d-vector-norms-using-blocks">Compute 2D vector norms using blocks</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">norm2D</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
+  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">blockIndices</span><span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}],</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">o</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nx">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nx">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1">//Example usage:</span>
+<span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="nx">norm2D</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
+<span class="c1">// o.data == [ 2.23606797749979, 5, 7.810249675906654 ]</span>
+</code></pre>
+<p>Note that in the above, <code>i</code> is not an actual <code>Array</code>, the indexing notation is just syntactic sugar.</p>
+<h2 id="apply-a-stencil-to-an-array">Apply a stencil to an array</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">laplacian</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
+  <span class="nx">args</span><span class="o">:</span><span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">offset</span><span class="o">:</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="nx">array</span><span class="o">:</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="nx">offset</span><span class="o">:</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nx">array</span><span class="o">:</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="nx">offset</span><span class="o">:</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="nx">array</span><span class="o">:</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="nx">offset</span><span class="o">:</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="nx">array</span><span class="o">:</span><span class="mi">1</span><span class="p">}],</span>
+  <span class="nx">body</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">n</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">w</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">a</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="p">(</span><span class="nx">n</span> <span class="o">+</span> <span class="nx">s</span> <span class="o">+</span> <span class="nx">e</span> <span class="o">+</span> <span class="nx">w</span><span class="p">)</span> <span class="o">-</span> <span class="nx">c</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="nx">laplacian</span><span class="p">(</span><span class="nx">next</span><span class="p">,</span> <span class="nx">prev</span><span class="p">)</span>
+</code></pre>
+<h2 id="compute-the-sum-of-all-the-elements-in-an-array">Compute the sum of all the elements in an array</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
+  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">],</span>
+  <span class="nx">pre</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">sum</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">sum</span> <span class="o">+=</span> <span class="nx">a</span>
+  <span class="p">},</span>
+  <span class="nx">post</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">sum</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1">//Usage:</span>
+<span class="nx">s</span> <span class="o">=</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span>
+</code></pre>
+<p>Note that variables stored in <code>this</code> are common to all three code blocks. Also note that one should not treat <code>this</code> as an actual object (for example, one should not attempt to return <code>this</code>).</p>
+<h2 id="check-if-any-element-is-set">Check if any element is set</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">any</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
+  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">],</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">post</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">false</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1">//Usage</span>
+<span class="k">if</span><span class="p">(</span><span class="nx">any</span><span class="p">(</span><span class="nx">array</span><span class="p">))</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="compute-the-index-of-the-maximum-element-of-an-array-">Compute the index of the maximum element of an array:</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">argmin</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
+  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">],</span>
+  <span class="nx">pre</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">min_v</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">.</span><span class="nx">POSITIVE_INFINITY</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">min_index</span> <span class="o">=</span> <span class="nx">index</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+  <span class="p">},</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">a</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">min_v</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">min_v</span> <span class="o">=</span> <span class="nx">a</span>
+      <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">index</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">min_index</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">index</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">post</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">min_index</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1">//Usage:</span>
+<span class="nx">argmin</span><span class="p">(</span><span class="nx">X</span><span class="p">)</span>
+</code></pre>
+<h1 id="install">Install</h1>
+<p>Install using <a href="https://www.npmjs.com/">npm</a>:</p>
+<pre><code>npm install cwise
+</code></pre><h1 id="api">API</h1>
+<h4 id="-require-cwise-user_args-"><code>require(&quot;cwise&quot;)(user_args)</code></h4>
 <p>To use the library, you pass it an object with the following fields:</p>
 <ul>
 <li><code>args</code>: (Required) An array describing the type of the arguments passed to the body.  These may be one of the following:<ul>
@@ -91,116 +200,10 @@
 <span class="p">}</span>
 </code></pre>
 <p>Then when you use the module with browserify, only the cwise-compile submodule will get loaded into your script instead of all of esprima. Note that this step is optional and the library will still work in the browser even if you don&apos;t use a transform.</p>
-<h1 id="examples">Examples</h1>
-<p>Here are a few recipes showing how to use cwise to implement some common operations to get you started:</p>
-<h3 id="multiply-an-array-with-a-scalar">Multiply an array with a scalar</h3>
-<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">muls</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
-  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;scalar&quot;</span><span class="p">],</span>
-  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">a</span> <span class="o">*=</span> <span class="nx">s</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-<span class="c1">//Example usage:</span>
-<span class="nx">muls</span><span class="p">(</span><span class="nx">array</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
-</code></pre>
-<h3 id="initialize-an-array-with-a-grid-with-the-first-index">Initialize an array with a grid with the first index</h3>
-<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">mgrid</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
-  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">],</span>
-  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">a</span> <span class="o">=</span> <span class="nx">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-<span class="c1">//Example usage:</span>
-<span class="kd">var</span> <span class="nx">X</span> <span class="o">=</span> <span class="nx">mgrid</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">(</span><span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">128</span><span class="p">)))</span>
-</code></pre>
-<h3 id="compute-2d-vector-norms">Compute 2D vector norms</h3>
-<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">norm2D</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
-  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">blockIndices</span><span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}],</span>
-  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">o</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nx">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nx">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-<span class="c1">//Example usage:</span>
-<span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="nx">ndarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-<span class="nx">norm2D</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
-<span class="c1">// o.data == [ 2.23606797749979, 5, 7.810249675906654 ]</span>
-</code></pre>
-<h3 id="check-if-any-element-is-set">Check if any element is set</h3>
-<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">any</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
-  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">],</span>
-  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="kc">true</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="nx">post</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kc">false</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-<span class="c1">//Usage</span>
-<span class="k">if</span><span class="p">(</span><span class="nx">any</span><span class="p">(</span><span class="nx">array</span><span class="p">))</span> <span class="p">{</span>
-  <span class="c1">// ...</span>
-<span class="p">}</span>
-</code></pre>
-<h3 id="apply-a-stencil-to-an-array">Apply a stencil to an array</h3>
-<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">laplacian</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
-  <span class="nx">args</span><span class="o">:</span><span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">offset</span><span class="o">:</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="nx">array</span><span class="o">:</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="nx">offset</span><span class="o">:</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nx">array</span><span class="o">:</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="nx">offset</span><span class="o">:</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="nx">array</span><span class="o">:</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="nx">offset</span><span class="o">:</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="nx">array</span><span class="o">:</span><span class="mi">1</span><span class="p">}],</span>
-  <span class="nx">body</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">n</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">w</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">a</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="p">(</span><span class="nx">n</span> <span class="o">+</span> <span class="nx">s</span> <span class="o">+</span> <span class="nx">e</span> <span class="o">+</span> <span class="nx">w</span><span class="p">)</span> <span class="o">-</span> <span class="nx">c</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-<span class="nx">laplacian</span><span class="p">(</span><span class="nx">next</span><span class="p">,</span> <span class="nx">prev</span><span class="p">)</span>
-</code></pre>
-<h3 id="compute-the-sum-of-all-the-elements-in-an-array">Compute the sum of all the elements in an array</h3>
-<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
-  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;array&quot;</span><span class="p">],</span>
-  <span class="nx">pre</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">sum</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="p">},</span>
-  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">sum</span> <span class="o">+=</span> <span class="nx">a</span>
-  <span class="p">},</span>
-  <span class="nx">post</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">sum</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-<span class="c1">//Usage:</span>
-<span class="nx">s</span> <span class="o">=</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span>
-</code></pre>
-<p>Note that variables stored in <code>this</code> are common to all the blocks</p>
-<h3 id="compute-the-index-of-the-maximum-element-of-an-array-">Compute the index of the maximum element of an array:</h3>
-<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">argmin</span> <span class="o">=</span> <span class="nx">cwise</span><span class="p">({</span>
-  <span class="nx">args</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">],</span>
-  <span class="nx">pre</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">min_v</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">.</span><span class="nx">POSITIVE_INFINITY</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">min_index</span> <span class="o">=</span> <span class="nx">index</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-  <span class="p">},</span>
-  <span class="nx">body</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">a</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">min_v</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">min_v</span> <span class="o">=</span> <span class="nx">a</span>
-      <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">index</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">min_index</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">index</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="nx">post</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">min_index</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-<span class="c1">//Usage:</span>
-<span class="nx">argmin</span><span class="p">(</span><span class="nx">X</span><span class="p">)</span>
-</code></pre>
 <h1 id="faq">FAQ</h1>
 <h2 id="is-it-fast-">Is it fast?</h2>
 <p><a href="https://github.com/mikolalysenko/ndarray-experiments">Yes</a></p>
 <h2 id="how-does-it-work-">How does it work?</h2>
 <p>You can think of cwise as a type of macro language on top of JavaScript.  Internally, cwise uses node-falafel to parse the functions you give it and sanitize their arguments.  At run time, code for each array operation is generated lazily depending on the ordering and stride of the input arrays so that you get optimal cache performance.  These compiled functions are then memoized for future calls to the same function.  As a result, you should reuse array operations as much as possible to avoid wasting time and memory regenerating common functions.</p>
-<h1 id="credits">Credits</h1>
+<h1 id="license">License</h1>
 <p>(c) 2013 Mikola Lysenko. MIT License</p>

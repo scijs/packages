@@ -1,34 +1,44 @@
 <h1 id="ndarray-translate-fft"><a target="_blank" href="http://github.com/scijs/ndarray-translate-fft">ndarray-translate-fft</a></h1>
 <p>Translates an array using <a href="http://en.wikipedia.org/wiki/Whittaker%E2%80%93Shannon_interpolation_formula">sinc interpolation</a>.  For some things this makes sense, but for other signals this may not be what you want.  (For example, you can get bigger values or negative stuff in your signal using this method).  If you want to use bilinear interpolation, check out <a href="https://github.com/mikolalysenko/ndarray-warp">ndarray-warp</a>, or if all your coordinates are integers try <a href="https://github.com/mikolalysenko/ndarray-translate">ndarray-translate</a> instead.</p>
-<h2 id="example">Example</h2>
+<p><a href="http://travis-ci.org/scijs/ndarray-translate-fft"><img src="https://secure.travis-ci.org/scijs/ndarray-translate-fft.png" alt="build status"></a></p>
+<h1 id="example">Example</h1>
+<h2 id="zero-padded">Zero padded</h2>
 <p>Here is a simple example showing how to warp with 0-padding boundary conditions:</p>
-<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">lena</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;luminance&quot;</span><span class="p">)(</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;lena&quot;</span><span class="p">))</span>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">baboon</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;luminance&quot;</span><span class="p">)(</span><span class="nx">require</span><span class="p">(</span><span class="s1">&apos;baboon-image&apos;</span><span class="p">))</span>
 <span class="kd">var</span> <span class="nx">translate</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;../translate.js&quot;</span><span class="p">)</span>
 
-<span class="nx">translate</span><span class="p">(</span><span class="nx">lena</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span>
+<span class="nx">translate</span><span class="p">(</span><span class="nx">baboon</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span>
 
-<span class="nx">require</span><span class="p">(</span><span class="s2">&quot;save-pixels&quot;</span><span class="p">)(</span><span class="nx">lena</span><span class="p">,</span> <span class="s2">&quot;png&quot;</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">)</span>
+<span class="nx">require</span><span class="p">(</span><span class="s2">&quot;save-pixels&quot;</span><span class="p">)(</span><span class="nx">baboon</span><span class="p">,</span> <span class="s2">&quot;png&quot;</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">)</span>
 </code></pre>
-<p>Which produces the following image:</p>
+<h3 id="output">Output</h3>
 <p><img src="https://raw.github.com/mikolalysenko/ndarray-translate-fft/master/example/zero.png"></p>
+<h2 id="wrapped">Wrapped</h2>
 <p>ndarray-fft can also handle periodic boundary conditions by replacing the <code>translate</code> line with the following:</p>
-<pre><code class="lang-javascript"><span class="nx">translate</span><span class="p">.</span><span class="nx">wrap</span><span class="p">(</span><span class="nx">lena</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">baboon</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;luminance&quot;</span><span class="p">)(</span><span class="nx">require</span><span class="p">(</span><span class="s1">&apos;baboon-image&apos;</span><span class="p">))</span>
+<span class="kd">var</span> <span class="nx">translate</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;../translate.js&quot;</span><span class="p">)</span>
+
+<span class="nx">translate</span><span class="p">.</span><span class="nx">wrap</span><span class="p">(</span><span class="nx">baboon</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">180</span><span class="p">])</span>
+
+<span class="nx">require</span><span class="p">(</span><span class="s2">&quot;save-pixels&quot;</span><span class="p">)(</span><span class="nx">baboon</span><span class="p">,</span> <span class="s2">&quot;png&quot;</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">)</span>
 </code></pre>
-<p>This produces the following output:</p>
+<h3 id="output">Output</h3>
 <p><img src="https://raw.github.com/mikolalysenko/ndarray-translate-fft/master/example/wrap.png"></p>
-<h2 id="install">Install</h2>
+<h1 id="install">Install</h1>
+<p>Install using <a href="https://www.npmjs.com/">npm</a>:</p>
 <pre><code>npm install ndarray-translate-fft
-</code></pre><h2 id="api">API</h2>
+</code></pre><h1 id="api">API</h1>
 <pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">translate</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-translate-fft&quot;</span><span class="p">)</span>
 </code></pre>
-<h3 id="-translate-array-shift-"><code>translate(array, shift)</code></h3>
+<h4 id="-translate-array-shift-"><code>translate(array, shift)</code></h4>
 <p>Translates <code>array</code> by <code>shift</code> amount in place using sinc interpolation with 0-boundary conditions.</p>
 <ul>
 <li><code>array</code> is an ndarray to translate (get mutated)</li>
-<li><code>shift</code> is the amount to shift by (can be a fractional number)</li>
+<li><code>shift</code> is an array of numbers indicated the amount to shift by (can be a fractional number), should have the same length as <code>array.shape</code></li>
 </ul>
 <p><strong>Returns</strong> <code>array</code></p>
-<h3 id="-translate-wrap-array-shift-"><code>translate.wrap(array, shift)</code></h3>
+<p><strong>Note</strong> that due to not using an infinite amount of padding (and/or using additional corrections), the zero-padded result might not be completely accurate (but since in this case you are shifting out data anyway...).</p>
+<h4 id="-translate-wrap-array-shift-"><code>translate.wrap(array, shift)</code></h4>
 <p>Translates an array by <code>shift</code> amount in place using periodic boundary conditions.  This is exactly recoverable.</p>
 <ul>
 <li><code>array</code> is the array to translate</li>
@@ -46,5 +56,5 @@
 <li>You are shifting with zero padding and integer vectors</li>
 <li>You are concerned about speed.</li>
 </ul>
-<h1 id="credits">Credits</h1>
-<p>(c) Mikola Lysenko. MIT License</p>
+<h1 id="license">License</h1>
+<p>(c) 2013 Mikola Lysenko. MIT License</p>

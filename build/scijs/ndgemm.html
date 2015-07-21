@@ -1,7 +1,8 @@
 <h1 id="ndgemm"><a target="_blank" href="http://github.com/scijs/ndgemm">ndgemm</a></h1>
 <p><a href="http://en.wikipedia.org/wiki/General_Matrix_Multiply">General matrix multiply</a> for <a href="https://github.com/mikolalysenko/ndarray">ndarrays</a>.  This is analogous to the <a href="http://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">BLAS level 3</a> routine xGEMM.</p>
 <p>Note that while this implementation is correct, it is not yet very optimized.  If someone wants to take over this project or suggest improvements, patches are welcome.</p>
-<h1 id="example">Example</h1>
+<p><a href="http://travis-ci.org/scijs/ndgemm"><img src="https://secure.travis-ci.org/scijs/ndgemm.png" alt="build status"></a></p>
+<h2 id="example">Example</h2>
 <pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">zeros</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;zeros&quot;</span><span class="p">)</span>
 <span class="kd">var</span> <span class="nx">ops</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-ops&quot;</span><span class="p">)</span>
 <span class="kd">var</span> <span class="nx">gemm</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndgemm&quot;</span><span class="p">)</span>
@@ -18,10 +19,11 @@
 <span class="c1">//Set c = a * b</span>
 <span class="nx">gemm</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span>
 </code></pre>
-<h1 id="install">Install</h1>
+<h2 id="install">Install</h2>
+<p>Install using <a href="https://www.npmjs.com/">npm</a>:</p>
 <pre><code>npm install ndgemm
-</code></pre><h1 id="api">API</h1>
-<h3 id="-require-ndgemm-c-a-b-alpha-beta-"><code>require(&quot;ndgemm&quot;)(c, a, b[, alpha, beta])</code></h3>
+</code></pre><h2 id="api">API</h2>
+<h4 id="-require-ndgemm-c-a-b-alpha-beta-"><code>require(&quot;ndgemm&quot;)(c, a, b[, alpha, beta])</code></h4>
 <p>Computes a generalized matrix multiplication.  This sets:</p>
 <pre><code class="lang-javascript"><span class="nx">c</span> <span class="o">=</span> <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">b</span> <span class="o">+</span> <span class="nx">beta</span> <span class="o">*</span> <span class="nx">c</span>
 </code></pre>
@@ -32,5 +34,5 @@
 <li><code>alpha</code> is a scalar weight which is applied to the product <code>a * b</code></li>
 <li><code>beta</code> is a scalar weight applied to <code>c</code> when added back in</li>
 </ul>
-<h2 id="credits">Credits</h2>
+<h2 id="license">License</h2>
 <p>(c) 2013 Mikola Lysenko. MIT License</p>

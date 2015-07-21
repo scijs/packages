@@ -4,7 +4,8 @@
 <li><a href="https://github.com/parmanoir/Meijster-distance">https://github.com/parmanoir/Meijster-distance</a></li>
 <li><a href="http://dissertations.ub.rug.nl/FILES/faculties/science/2004/a.meijster/c2.pdf">http://dissertations.ub.rug.nl/FILES/faculties/science/2004/a.meijster/c2.pdf</a></li>
 </ul>
-<h1 id="example">Example</h1>
+<p><a href="http://travis-ci.org/scijs/distance-transform"><img src="https://secure.travis-ci.org/scijs/distance-transform.png" alt="build status"></a></p>
+<h2 id="example">Example</h2>
 <pre><code class="lang-javascript"><span class="c1">//Generate some shape as a binary voxel image</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray&quot;</span><span class="p">).</span><span class="nx">zeros</span><span class="p">([</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
 <span class="nx">x</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -15,11 +16,13 @@
 <span class="c1">//Save result</span>
 <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;save-pixels&quot;</span><span class="p">)(</span><span class="nx">x</span><span class="p">,</span> <span class="s2">&quot;png&quot;</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">)</span>
 </code></pre>
-<p>Which creates the following image:</p>
+<h4 id="output">Output</h4>
 <p><img src="https://raw.github.com/mikolalysenko/distance-transform/master/example/example.png"></p>
-<h1 id="install">Install</h1>
+<h2 id="install">Install</h2>
+<p>Install using <a href="https://www.npmjs.com/">npm</a>:</p>
 <pre><code>npm install distance-transform
-</code></pre><h2 id="-require-distance-transform-array-p-"><code>require(&quot;distance-transform&quot;)(array[, p])</code></h2>
+</code></pre><h2 id="api">API</h2>
+<h4 id="-require-distance-transform-array-p-"><code>require(&quot;distance-transform&quot;)(array[, p])</code></h4>
 <p>Performs a distance transform of <code>array</code> in place using Meijster&apos;s algorithm.</p>
 <ul>
 <li><code>array</code> is the array to transform</li>
@@ -33,5 +36,5 @@
 <li>Other values of p give various interpolants</li>
 </ul>
 <p><code>array</code> is updated in place and gets the distance values.</p>
-<h1 id="credits">Credits</h1>
+<h2 id="license">License</h2>
 <p>(c) 2013 Mikola Lysenko. MIT License.</p>

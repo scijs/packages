@@ -1,31 +1,44 @@
 <h1 id="ndarray-select"><a target="_blank" href="http://github.com/scijs/ndarray-select">ndarray-select</a></h1>
 <p>Finds the kth element in an ndarray in linear time with high probability.  This implementation is based on the <a href="http://en.wikipedia.org/wiki/Quickselect">quick select algorithm</a> and mutates the array in place.</p>
-<h1 id="example">Example</h1>
+<p><a href="http://travis-ci.org/scijs/ndarray-select"><img src="https://secure.travis-ci.org/scijs/ndarray-select.png" alt="build status"></a></p>
+<h2 id="examples">Examples</h2>
+<h3 id="single-list">Single list</h3>
 <pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">pack</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-pack&quot;</span><span class="p">)</span>
 <span class="kd">var</span> <span class="nx">ndselect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-select&quot;</span><span class="p">)</span>
 
+<span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="nx">pack</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1">//Find the median element in the list</span>
+<span class="kd">var</span> <span class="nx">median</span> <span class="o">=</span> <span class="nx">ndselect</span><span class="p">(</span><span class="nx">points</span><span class="p">,</span> <span class="nx">points</span><span class="p">.</span><span class="nx">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">median</span><span class="p">.</span><span class="nx">get</span><span class="p">())</span>
+</code></pre>
+<h4 id="output">Output</h4>
+<pre><code>0 2.5 -1
+</code></pre><h3 id="multiple-lists">Multiple lists</h3>
+<p>It is also possible to select vectors (using lexicographical comparisons):</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">pack</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-pack&quot;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">ndselect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-select&quot;</span><span class="p">)</span>
 
 <span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="nx">pack</span><span class="p">([</span>
   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
   <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
   <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-
-  <span class="c1">// ... etc.</span>
-
   <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="p">])</span>
-
 
 <span class="c1">//Find the median element in the list</span>
 <span class="kd">var</span> <span class="nx">median</span> <span class="o">=</span> <span class="nx">ndselect</span><span class="p">(</span><span class="nx">points</span><span class="p">,</span> <span class="nx">points</span><span class="p">.</span><span class="nx">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">median</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="nx">median</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nx">median</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 </code></pre>
-<h1 id="install">Install</h1>
-<pre><code class="lang-sh">npm install ndarray-select
-</code></pre>
-<h1 id="api">API</h1>
+<h4 id="output">Output</h4>
+<pre><code>0 2.5 -1
+</code></pre><h2 id="install">Install</h2>
+<p>Install using <a href="https://www.npmjs.com/">npm</a>:</p>
+<pre><code>npm install ndarray-select
+</code></pre><h2 id="api">API</h2>
 <pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ndselect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-select&quot;</span><span class="p">)</span>
 </code></pre>
 <h4 id="-ndselect-array-k-compare-"><code>ndselect(array, k[, compare])</code></h4>
@@ -36,14 +49,14 @@
 <li><code>compare</code> is an optional comparison function that gets a pair of ndarrays as input.</li>
 </ul>
 <p><strong>Returns</strong> An ndarray view of <code>array.pick(k)</code></p>
-<p><strong>Note</strong> This method modifies <code>array</code>.  After completion, the element at position <code>k</code> will be in sorted order, with all elements <code>&lt;array.pick(k)</code> occuring before <code>k</code> and all elements <code>&gt;array.pick(k)</code> after <code>k</code> in the list.</p>
+<p><strong>Note</strong> This method modifies <code>array</code>. After completion, the element at position <code>k</code> will be in sorted order, with all elements <code>&lt;array.pick(k)</code> occuring before <code>k</code> and all elements <code>&gt;array.pick(k)</code> after <code>k</code> in the list.</p>
 <h4 id="-ndselect-compile-order-usecompare-dtype-"><code>ndselect.compile(order, useCompare, dtype)</code></h4>
-<p>Precompiles an optimized selection algorithm for an array with the given index order and datatype</p>
+<p>Precompiles an optimized selection algorithm for an array with the given index order and datatype.</p>
 <ul>
 <li><code>order</code> is the order of the ndarray</li>
 <li><code>useCompare</code> is a flag which if set uses a comparison function</li>
 <li><code>dtype</code> is the datatype of the array</li>
 </ul>
 <p><strong>Returns</strong> An optimized <code>ndselect</code> function</p>
-<h1 id="credits">Credits</h1>
+<h2 id="license">License</h2>
 <p>(c) 2014 Mikola Lysenko. MIT License</p>
