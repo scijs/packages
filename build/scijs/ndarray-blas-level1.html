@@ -1,5 +1,5 @@
 <h1 id="ndarray-blas-level1"><a target="_blank" href="http://github.com/scijs/ndarray-blas-level1">ndarray-blas-level1</a></h1>
-<p><a href="https://travis-ci.org/scijs/ndarray-blas-level1"><img src="https://travis-ci.org/scijs/ndarray-blas-level1.svg?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/ndarray-blas-level1"><img src="https://badge.fury.io/js/ndarray-blas-level1.svg" alt="npm version"></a>  <a href="https://david-dm.org/scijs/ndarray-blas-level1"><img src="https://david-dm.org/scijs/ndarray-blas-level1.svg" alt="Dependency Status"></a></p>
+<p><a href="https://travis-ci.org/scijs/ndarray-blas-level1"></a> <a href="http://badge.fury.io/js/ndarray-blas-level1"></a>  <a href="https://david-dm.org/scijs/ndarray-blas-level1"></a></p>
 <p><a href="http://www.netlib.org/blas/">BLAS Level 1 operations</a> for <a href="https://github.com/scijs/ndarray">ndarrays</a></p>
 <p><em>A quick note on why this exists</em>: The goal is not to reinvent the wheel. There are lots of implementations of BLAS out there. Even for JS. There&apos;s a <a href="https://www.npmjs.com/package/lapack">nodejs wrapper for LAPACK</a>. Depending on what you need, maybe you should use that. The goal of this is to bring standardized BLAS operations to <a href="https://github.com/scijs/ndarray">ndarrays</a> so that algorithms can be made as future-resistant as possible by writing them in terms of standardized, easily-translatable operations.</p>
 <h2 id="usage">Usage</h2>
@@ -16,47 +16,47 @@
 <tbody>
 <tr>
 <td><code>swap(x,y)</code></td>
-<td><img alt="x \leftrightarrow y" valign="middle" src="images/x-leftrightarrow-y-9aed41cf97.png" width="57" height="16.5"></td>
+<td><img alt="x \leftrightarrow y" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/x-leftrightarrow-y-9aed41cf97.png" width="57" height="16.5"></td>
 <td>Swap the elements of x and y</td>
 </tr>
 <tr>
 <td><code>scal(alpha,x)</code></td>
-<td><img alt="x \leftarrow \alpha x" valign="middle" src="images/x-leftarrow-alpha-x-daa7a2db38.png" width="71" height="13"></td>
+<td><img alt="x \leftarrow \alpha x" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/x-leftarrow-alpha-x-daa7a2db38.png" width="71" height="13"></td>
 <td>Multiple vector x by scalar alpha</td>
 </tr>
 <tr>
 <td><code>copy(x,y)</code></td>
-<td><img alt="y \leftarrow x" valign="middle" src="images/y-leftarrow-x-dc4dfb7fd0.png" width="57" height="16.5"></td>
+<td><img alt="y \leftarrow x" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/y-leftarrow-x-dc4dfb7fd0.png" width="57" height="16.5"></td>
 <td>Copy x into y</td>
 </tr>
 <tr>
 <td><code>axpy(alpha, x, y)</code></td>
-<td><img alt="y \leftarrow \alpha x + y" valign="middle" src="images/y-leftarrow-alpha-x-y-812ce8de82.png" width="105" height="19.5"></td>
+<td><img alt="y \leftarrow \alpha x + y" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/y-leftarrow-alpha-x-y-812ce8de82.png" width="105" height="19.5"></td>
 <td>Multiple x by alpha and add it to y</td>
 </tr>
 <tr>
 <td><code>cpsc(alpha, x, y)</code></td>
-<td><img alt="y \leftarrow \alpha x" valign="middle" src="images/y-leftarrow-alpha-x-bc5d06c8ea.png" width="70" height="16.5"></td>
+<td><img alt="y \leftarrow \alpha x" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/y-leftarrow-alpha-x-bc5d06c8ea.png" width="70" height="16.5"></td>
 <td>Multiply x by alpha and assign it to y</td>
 </tr>
 <tr>
 <td><code>dot(x,y)</code></td>
-<td><img alt="dot \leftarrow x^T y" valign="middle" src="images/dot-leftarrow-xt-y-25cde5531d.png" width="97" height="25"></td>
+<td><img alt="dot \leftarrow x^T y" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/dot-leftarrow-xt-y-25cde5531d.png" width="97" height="25"></td>
 <td>Calculate the inner product of x and y.</td>
 </tr>
 <tr>
 <td><code>nrm2(x)</code></td>
-<td><img alt="nrm2 \leftarrow ||x||_2" valign="middle" src="images/nrm2-leftarrow-x_2-75057a8787.png" width="126.5" height="24"></td>
+<td><img alt="nrm2 \leftarrow ||x||_2" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/nrm2-leftarrow-x_2-75057a8787.png" width="126.5" height="24"></td>
 <td>Calculate the 2-norm of x</td>
 </tr>
 <tr>
 <td><code>asum(x)</code></td>
-<td><img alt="asum \leftarrow ||x||_1" valign="middle" src="images/asum-leftarrow-x_1-ae4c1bf200.png" width="126.5" height="24"></td>
+<td><img alt="asum \leftarrow ||x||_1" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/asum-leftarrow-x_1-ae4c1bf200.png" width="126.5" height="24"></td>
 <td>Calculate the 1-norm of x</td>
 </tr>
 <tr>
 <td><code>iamax(x)</code></td>
-<td><img alt="\underset{i} {\mathrm{argmax}} |x_i|" valign="middle" src="images/underseti-mathrmargmax-x_i-2aaceffdc3.png" width="98" height="37.5"></td>
+<td><img alt="\underset{i} {\mathrm{argmax}} |x_i|" valign="middle" src="https://raw.githubusercontent.com/scijs/ndarray-blas-level1/master/images/underseti-mathrmargmax-x_i-2aaceffdc3.png" width="98" height="37.5"></td>
 <td>the argmax of x</td>
 </tr>
 </tbody>
