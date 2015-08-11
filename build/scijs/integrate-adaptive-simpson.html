@@ -1,0 +1,40 @@
+<h1 id="integrate-adaptive-simpson-build-status-https-travis-ci-org-scijs-integrate-adaptive-simpson-svg-https-travis-ci-org-scijs-integrate-adaptive-simpson-npm-version-https-badge-fury-io-js-integrate-adaptive-simpson-svg-http-badge-fury-io-js-integrate-adaptive-simpson-dependency-status-https-david-dm-org-scijs-integrate-adaptive-simpson-svg-https-david-dm-org-scijs-integrate-adaptive-simpson-"><a target="_blank" href="http://github.com/scijs/integrate-adaptive-simpson">integrate-adaptive-simpson <a href="https://travis-ci.org/scijs/integrate-adaptive-simpson"></a> <a href="http://badge.fury.io/js/integrate-adaptive-simpson"></a> <a href="https://david-dm.org/scijs/integrate-adaptive-simpson"></a></a></h1>
+<blockquote>
+<p>Compute a definite integral of one variable using <a href="https://en.wikipedia.org/wiki/Simpson%27s_rule">Simpson&apos;s Rule</a> with adaptive quadrature</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>This module computes the definite integral </p><p align="center"><img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/int_ab-fx-dx-a1ac3b24ed.png" width="99.5" height="54.5"></p> using <a href="https://en.wikipedia.org/wiki/Romberg%27s_method">Romberg Integration</a> based on <a href="https://en.wikipedia.org/wiki/Simpson%27s_rule">Simpson&apos;s Rule</a>. That is, it uses <a href="https://en.wikipedia.org/wiki/Richardson_extrapolation">Richardson Extrapolation</a> to estimate the error and recursively subdivide intervals until the error tolerance is met. The code is adapted from the pseudocode in <a href="http://www.math.utk.edu/~ccollins/refs/Handouts/rich.pdf">Romberg Integration and Adaptive Quadrature</a>.<p></p>
+<h2 id="install">Install</h2>
+<pre><code class="lang-bash"><span class="nv">$ </span>npm install integrate-adaptive-simpson
+</code></pre>
+<h2 id="example">Example</h2>
+<p>Other quadrature methods may competitive or superior, but compared with something like <a href="https://github.com/scijs/integrate-simpson">regular Simpson&apos;s Rule Ingration</a>, this module is reasonably efficient and robust in the presence of difficulties like oscillatory functions. Consider the definite integral </p><p align="center"><img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/int_0011-frac1xcosleftfrac1xrightdx-d7e8731b7d.png" width="177" height="54.5"></p><p></p>
+<p>This function oscillates and diverges near the origin:</p>
+<p></p><p align="center"><img width="500" height="368" alt="1/x * cos(1/x) on a linear scale" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/oscillatory-linlin.png"></p>
+<p>On a log-linear scale, this looks like:</p>
+<p></p><p align="center"><img width="500" height="368" alt="1/x * cos(1/x) on a log-linear scale" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/oscillatory-loglin.png"></p>
+<p>Achieving an absolute error on the order of <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/1-cdot-10-8-09bd84e939.png" width="70" height="20.5"> with regular Simpson&apos;s Rule integration:</p>
+<pre><code class="lang-javascript"><span class="kd">function</span> <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="nx">x</span><span class="p">)</span><span class="o">/</span><span class="nx">x</span> <span class="p">}</span>
+
+<span class="nx">require</span><span class="p">(</span><span class="s1">&apos;integrate-simpson&apos;</span><span class="p">)(</span> <span class="nx">f</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">29118</span> <span class="p">)</span>
+</code></pre>
+<p>requires (determined by trial and error to match the error of the adaptive method) about 29118 function evaluations. The same integral computed with adaptive integration:</p>
+<pre><code class="lang-javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">&apos;integrate-adaptive-simpson&apos;</span><span class="p">)(</span> <span class="nx">f</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">3.1</span><span class="nx">e</span><span class="o">-</span><span class="mi">6</span> <span class="p">)</span>
+</code></pre>
+<p>requires 2077 function evaluations, a savings of 93%!</p>
+<p>Computation of a more modest integral like <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/int_0pi-sinxdx-073b62952c.png" width="108" height="28.5"> may still save about a factor of two on function evaluations (17 for adaptive vs. 45 for regular Simpson&apos;s Rule to acheive an absolute error of <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/1-cdot-10-8-09bd84e939.png" width="70" height="20.5">). See <a href="http://github.com/scijs/integrate-adaptive-simpson/blob/master/examples/comparison.js">examples/comparison.js</a> for a comparison. Of course the benefit is not needing to tell the algorithm in advance that it may be an expensive function to integrate, making it a not-unreasonable black-box integrator.</p>
+<h2 id="api">API</h2>
+<h4 id="-require-integrate-adaptive-simpson-f-a-b-tol-maxdepth-"><code>require(&apos;integrate-adaptive-simpson&apos;)( f, a, b [, tol, maxdepth]] )</code></h4>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>f</code>: The function to be integrated. A function of one variable that returns a value.</li>
+<li><code>a</code>: The lower limit of integration, <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/a-a1c2708a7a.png" width="15" height="13">.</li>
+<li><code>b</code>: The upper limit of integration, <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/integrate-adaptive-simpson/master/docs/images/b-5891343d52.png" width="13" height="18">.</li>
+<li><code>tol</code>: The relative error required for an interval to be subdivided, based on Richardson extraplation. Default tolerance is <code>1e-8</code>. Be careful&#x2014;the total accumulated error may be significantly less and result in more function evaluations than necessary.</li>
+<li><code>maxdepth</code>: The maximum recursion depth. Default depth is <code>20</code>. If reached, computation continues and a warning is output to the console.</li>
+</ul>
+<p><strong>Returns</strong>: The computed value of the definite integral.</p>
+<h2 id="references">References</h2>
+<p>Colins, C., <a href="http://www.math.utk.edu/~ccollins/refs/Handouts/rich.pdf">Romberg Integration and Adaptive Quadrature Course Notes</a>.</p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>

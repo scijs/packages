@@ -1,0 +1,106 @@
+<h1 id="ode45-cash-karp-build-status-https-travis-ci-org-scijs-ode45-cash-karp-svg-https-travis-ci-org-scijs-ode45-cash-karp-npm-version-https-badge-fury-io-js-ode45-cash-karp-svg-http-badge-fury-io-js-ode45-cash-karp-dependency-status-https-david-dm-org-scijs-ode45-cash-karp-svg-https-david-dm-org-scijs-ode45-cash-karp-"><a target="_blank" href="http://github.com/scijs/ode45-cash-karp">ode45-cash-karp <a href="https://travis-ci.org/scijs/ode45-cash-karp"></a> <a href="http://badge.fury.io/js/ode45-cash-karp"></a> <a href="https://david-dm.org/scijs/ode45-cash-karp"></a></a></h1>
+<blockquote>
+<p>Integrate a system of Ordinary Differential Equations using the Fifth Order Adaptive Cash-Karp method</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>This module integrates a system of ordinary differential equations of the form</p>
+<p align="center"><img alt="\begin{eqnarray*} y&apos;(t) &amp;=&amp; f(t, y(t)), \\ y(t_0) &amp;=&amp; y_0 \end{eqnarray*}" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/begineqnarray-yt-ft-yt-yt_0-y_0-endeqnarray-0298eae3db.png" width="187" height="61"></p>
+
+<p>where <img alt="y" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/y-720f311276.png" width="14.5" height="20"> is a vector of length <img alt="n" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/n-9baedbc330.png" width="16" height="16">. Given time step <img alt="\Delta t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/delta-t-a20a5fe4f2.png" width="28" height="16">, the <a href="https://en.wikipedia.org/wiki/Cash%E2%80%93Karp_method">Cash-Karp</a> method uses a fifth order Runge-Kutta scheme with a fourth order embedded estimator in order to control the error. In other words, the same intermediate values used in calculating the fifth order update can be used to calculate a fourth order estimate. The difference yields an error estimate, and the error estimate controls the timestep <img alt="\Delta t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/delta-t-a20a5fe4f2.png" width="28" height="16">.</p>
+<h2 id="install">Install</h2>
+<pre><code class="lang-bash"><span class="nv">$ </span>npm install ode45-cash-karp
+</code></pre>
+<h2 id="example">Example</h2>
+<h3 id="-van-der-pol-oscillator-https-en-wikipedia-org-wiki-van_der_pol_oscillator-"><a href="https://en.wikipedia.org/wiki/Van_der_Pol_oscillator">Van der Pol oscillator</a></h3>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ode45</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ode45-cash-karp&apos;</span><span class="p">)</span>
+
+<span class="c1">// The derivative function for a Van der Pol oscillator:</span>
+<span class="kd">var</span> <span class="nx">vanderpol</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dydt</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">dydt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="nx">dydt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nx">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nx">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="nx">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="nx">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1">// Initialize:</span>
+<span class="kd">var</span> <span class="nx">y0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="nx">t0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nx">dt0</span> <span class="o">=</span> <span class="mi">1</span><span class="nx">e</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span>
+    <span class="nx">integrator</span> <span class="o">=</span> <span class="nx">ode45</span><span class="p">(</span> <span class="nx">y0</span><span class="p">,</span> <span class="nx">vanderpol</span><span class="p">,</span> <span class="nx">t0</span><span class="p">,</span> <span class="nx">dt0</span> <span class="p">)</span>
+
+<span class="c1">// Integrate up to tmax:</span>
+<span class="kd">var</span> <span class="nx">tmax</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">t</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">while</span><span class="p">(</span> <span class="nx">integrator</span><span class="p">.</span><span class="nx">step</span><span class="p">(</span> <span class="nx">tmax</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Store the solution at this timestep:</span>
+  <span class="nx">t</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">integrator</span><span class="p">.</span><span class="nx">t</span> <span class="p">)</span>
+  <span class="nx">y</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">integrator</span><span class="p">.</span><span class="nx">y</span> <span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id="common-patterns">Common patterns</h3>
+<p>A single adaptive step:</p>
+<pre><code>integrator.step()
+integrator.y      // current state
+integrator.t      // current time
+integrator.dt     // newly adapted timestep
+</code></pre><p>A single adaptive step, returning false if <img alt="t=1.5" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/t15-27f16b808b.png" width="63.5" height="16"> reached:</p>
+<pre><code>integrator.step( 1.5 ) // returns true if t &lt; 1.5
+integrator.step( 1.5 ) // returns false if t = 1.5
+</code></pre><p>Ten adaptive timesteps in sequence:</p>
+<pre><code>integrator.steps( 10 )
+</code></pre><p>Ten timesteps, halting early and returning false if <img alt="t=1.5" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/t15-27f16b808b.png" width="63.5" height="16"> is reached::</p>
+<pre><code>integrator.steps( 10, 1.5 )
+</code></pre><p>Take any number of timesteps until <img alt="t=1.5" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/t15-27f16b808b.png" width="63.5" height="16">:</p>
+<pre><code>integrator.steps( Infinity, 1.5 )
+</code></pre><h2 id="api">API</h2>
+<h4 id="-require-ode45-cash-karp-y0-deriv-t0-dt0-options-"><code>require(&apos;ode45-cash-karp&apos;)( y0, deriv, t0, dt0 [, options] )</code></h4>
+<h4 id="arguments-">Arguments:</h4>
+<ul>
+<li><code>y0</code>: an array or typed array containing initial conditions. This vector is updated in-place with each integrator step.</li>
+<li><code>deriv</code>: a function that calculates the derivative. Format is <code>function( dydt, y, t )</code>. Inputs are current state <code>y</code> and current time <code>t</code>, output is the calculated derivative <code>dydt</code>.</li>
+<li><code>t0</code>: initial time <img alt="t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/t-fc93da6f4d.png" width="11.5" height="16">.</li>
+<li><code>dt0</code>: initial time step <img alt="\Delta t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/delta-t-a20a5fe4f2.png" width="28" height="16">.</li>
+<li><code>options</code>: an optional associative array of options. Valid parameters are:<ul>
+<li><code>tol</code>: The target error level to be acheived. Default is: <img alt="1 \cdot 10^{-8}" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/1-cdot-10-8-9ceae48083.png" width="70" height="20">.</li>
+<li><code>maxIncreaseFactor</code>: The maximum factor by which to increase the timestep if the error tolerance is met. Default value is 10. This limit is applied at the end of a successful timestep.</li>
+<li><code>maxDecreaseFactor</code>: The maximum factor by which to decrease the timestep if the error tolerance is not met. Default value is 10. This limit is applied on each trial step until the error tolerance is acheived.</li>
+<li><code>dtMinMag</code>: The minimum allowed magnitude of <img alt="\Delta t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/delta-t-a20a5fe4f2.png" width="28" height="16">. If limit is exceeded during adaptation, a warning is printed to the console and the timestep completes with <img alt="\Delta t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/delta-t-a20a5fe4f2.png" width="28" height="16"> clipped to the the prescribed magnitude. If <code>undefined</code>, this limit is ignored. Default value is <code>undefined</code>.</li>
+<li><code>dtMaxMag</code>: The maximum allowed magnitude of <img alt="\Delta t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/delta-t-a20a5fe4f2.png" width="28" height="16">. This limit is applied at the beginning of each step. If a timestep larger than this magnitude is requested, the timestep is executed with <img alt="\Delta t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/delta-t-a20a5fe4f2.png" width="28" height="16"> clipped to the prescribed magnitude. If <code>undefined</code>, this limit is ignored. Default value is <code>undefined</code>.</li>
+<li><code>errorScaleFunction</code>: The function used to compute a normalizing factor for the error in a given dimension. See below for details.</li>
+<li><code>errorReduceFunction</code>: The reduce operation by which errors in each dimension are combined into a single error metric. See below for details.</li>
+<li><code>errorPostFunction</code>: An operation applied to the total error. For example, if using the <img alt="L_2" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/l_2-23fd536b11.png" width="26.5" height="19"> norm this would be a square root. See below for details.</li>
+</ul>
+</li>
+</ul>
+<h4 id="returns-">Returns:</h4>
+<p>Initialized integrator object.</p>
+<h4 id="properties-">Properties:</h4>
+<ul>
+<li><code>n</code>: dimension of <code>y0</code>.</li>
+<li><code>y</code>: current state; a reference to input array <code>y0</code>.</li>
+<li><code>deriv</code>: function that calculates the derivative.</li>
+<li><code>t</code>: current time, incremented by <code>dt</code> on each time step.</li>
+<li><code>dt</code>: current time step <img alt="\Delta t" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/delta-t-a20a5fe4f2.png" width="28" height="16">. Initialized from input <code>dt0</code>. May be changed, but will be overwritten with each adaptive step in order to acheive the prescribed error bound.</li>
+<li>all options are copied to properties on the integrator object and may be changed at any time.</li>
+</ul>
+<h4 id="methods-">Methods:</h4>
+<ul>
+<li><code>.step( [tLimit] )</code>: takes a single step of the integrator and stores the result in-place in the <code>y</code> property. Returns true if <code>tLimit</code> was not provided or if <code>t</code> has not reached the limit, otherwise returns false, meaning <code>t</code> has reached <code>tLimit</code>.</li>
+<li><code>.steps( n, [tLimit] )</code>: takes <code>n</code> steps of the integrator, storing the result in-place in the <code>y</code> property. Exits early if <code>tLimit</code> is reached. Returns true if <code>tLimit</code> was not provided or if <code>t</code> has not reached the limit, otherwise returns false, meaning <code>t</code> has reached <code>tLimit</code>. Note that, for example, <code>.steps( Infinity, 10 )</code> is valid and will take whatever number of step is required to reach <img alt="t=10" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/t10-b3a7f6176e.png" width="58" height="16">.</li>
+</ul>
+<h3 id="error-estimation">Error Estimation</h3>
+<p>Ideally, there would be no choices in error computation since this library would implement the best possible choices, but I&apos;ve left this configurable.</p>
+<h5 id="-errorscalefunction-function-i-dt-y-dydt-"><code>errorScaleFunction: function( i, dt, y, dydt )</code></h5>
+<p>This function receives the dimension number <code>i</code>, the current timestep <code>dt</code>, the current state <code>y</code>, and the derivative calculated at the beginning of the step, <code>dydt</code>. It must return a normalization factor by which the error in the given dimension is normalized. It is executed once at the beginning of each timestep and not for subsequent trial steps. By default, it is:</p>
+<pre><code>function errorScaleFunction( i, dt, y, dydt ) {
+  return Math.abs(y) + Math.abs(dt * dydt) + 1e-32
+}
+</code></pre><h5 id="-errorreducefunction-function-i-accumulatederror-errorestimate-"><code>errorReduceFunction: function( i, accumulatedError, errorEstimate )</code></h5>
+<p>This function performs a reduce operation on the per-dimension error. <code>accumulatedError</code> is initially zero. The function must add the error estimate in dimension <code>i</code> and return a new error estimate. By default, the error reduce function simply returns the maximum error:</p>
+<pre><code>function errorReduceFunction( i, accumulatedError, errorEstimate ) {
+  return Math.max( accumulatedError, Math.abs(errorEstimate))
+}
+</code></pre><h5 id="-errorpostfunction-function-accumulatederror-errorestimate-"><code>errorPostFunction: function( accumulatedError, errorEstimate )</code></h5>
+<p>This function applies a mapping to the total reduced error resulting from <code>errorReduceFunction</code>. For the <img alt="L_2" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/l_2-23fd536b11.png" width="26.5" height="19"> norm, this would just be <code>Math.sqrt</code>; for the <img alt="L_\infty" valign="middle" src="https://raw.githubusercontent.com/scijs/ode45-cash-karp/master/docs/images/l_infty-c904452e37.png" width="34.5" height="19"> norm, this is simply a no-op:</p>
+<pre><code>function errorPostFunction( accumulatedError ) {
+  return accumulatedError
+}
+</code></pre><h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>

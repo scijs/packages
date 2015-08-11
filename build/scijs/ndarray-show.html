@@ -1,7 +1,7 @@
 <h1 id="ndarray-show"><a target="_blank" href="http://github.com/scijs/ndarray-show">ndarray-show</a></h1>
 <p>display an ndarray</p>
-<p><a href="https://ci.testling.com/substack/ndarray-show"><img src="https://ci.testling.com/substack/ndarray-show.png" alt="testling badge"></a></p>
-<p><a href="http://travis-ci.org/substack/ndarray-show"><img src="https://secure.travis-ci.org/substack/ndarray-show.png" alt="build status"></a></p>
+<p><a href="https://ci.testling.com/scijs/ndarray-show"><img src="https://ci.testling.com/scijs/ndarray-show.png" alt="testling badge"></a></p>
+<p><a href="http://travis-ci.org/scijs/ndarray-show"></a></p>
 <h1 id="example">example</h1>
 <h2 id="1d">1d</h2>
 <pre><code class="lang-js"><span class="kd">var</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray&apos;</span><span class="p">);</span>
@@ -20,8 +20,9 @@
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">show</span><span class="p">(</span><span class="nx">m</span><span class="p">));</span>
 </code></pre>
 <p>output:</p>
-<pre><code>   1.000  2.00e-9    3.000
-   4.000  5.55e+5 -990.520
+<pre><code>   1.000    4.000
+ 2.00e-9  5.55e+5
+   3.000 -990.520
 </code></pre><h2 id="3d">3d</h2>
 <pre><code class="lang-js"><span class="kd">var</span> <span class="nx">zeros</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;zeros&apos;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">fill</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-fill&apos;</span><span class="p">);</span>
@@ -36,17 +37,17 @@
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">show</span><span class="p">(</span><span class="nx">m</span><span class="p">));</span>
 </code></pre>
 <p>output:</p>
-<pre><code> 1024.00  1.08e-3  733.106
-  50.404    0.048    8.189
-   0.068   34.663    0.013
+<pre><code> 1024.00  391.739   28.522
+  50.404    3.261    0.166
+   0.068  9.16e-3  5.02e-3
 
- 391.739  4.91e-3   95.054
-   3.261    0.893    0.383
- 9.16e-3  180.140  3.73e-3
+ 1.08e-3  4.91e-3    0.103
+   0.048    0.893   17.011
+  34.663  180.140  208.171
 
-  28.522    0.103    3.177
-   0.166   17.011    0.022
- 5.02e-3  208.171  5.11e-3
+ 733.106   95.054    3.177
+   8.189    0.383    0.022
+   0.013  3.73e-3  5.11e-3
 </code></pre><h2 id="4d">4d</h2>
 <pre><code class="lang-js"><span class="kd">var</span> <span class="nx">zeros</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;zeros&apos;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">fill</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-fill&apos;</span><span class="p">);</span>
@@ -61,45 +62,45 @@
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">show</span><span class="p">(</span><span class="nx">m</span><span class="p">));</span>
 </code></pre>
 <p>output:</p>
-<pre><code> 1024.00  1.08e-3  733.106
-  50.404    0.048    8.189
-   0.068   34.663    0.013
+<pre><code> 1024.00  1877.54  3325.26
+ 907.293  1159.48  249.925
+ 666.755   88.416    0.260
 
- 907.293  1.41e-3  489.114
-  62.836    0.042    8.451
-   0.097   23.167    0.021
+  50.404    0.444  1.78e-3
+  62.836    0.024  2.53e-6
+  68.771  1.19e-3  1.56e-7
 
- 666.755  2.19e-3  275.468
-  68.771    0.043    7.465
-   0.145   15.113    0.032
-
---------------------------
-
- 1877.54  2.53e-4  7039.08
-   0.444    3.510    0.187
- 2.22e-4  15341.0  2.32e-5
-
- 1159.48  7.96e-4  1180.81
-   0.024   72.893  8.46e-3
- 1.55e-5  1.29e+5  4.88e-6
-
-  88.416    0.017   36.223
- 1.19e-3  1262.99  6.08e-4
- 7.82e-6  1.32e+5  9.24e-6
+   0.068  2.22e-4  3.21e-7
+   0.097  1.55e-5  4.00e-9
+   0.145  7.82e-6  1.69e-7
 
 --------------------------
 
- 3325.26  5.41e-5  84433.4
- 1.78e-3  523.559  2.32e-3
- 3.21e-7  1.60e+7  1.70e-8
+ 1.08e-3  2.53e-4  5.41e-5
+ 1.41e-3  7.96e-4  2.15e-3
+ 2.19e-3    0.017    2.227
 
- 249.925  2.15e-3  765.572
- 2.53e-6  3.27e+5  4.78e-6
- 4.00e-9  4.23e+8  2.00e-9
+   0.048    3.510  523.559
+   0.042   72.893  3.27e+5
+   0.043  1262.99  1.83e+6
 
-   0.260    2.227    0.787
- 1.56e-7  1.83e+6  2.57e-6
- 1.69e-7  2.62e+6  1.15e-6
+  34.663  15341.0  1.60e+7
+  23.167  1.29e+5  4.23e+8
+  15.113  1.32e+5  2.62e+6
+
+--------------------------
+
+ 733.106  7039.08  84433.4
+ 489.114  1180.81  765.572
+ 275.468   36.223    0.787
+
+   8.189    0.187  2.32e-3
+   8.451  8.46e-3  4.78e-6
+   7.465  6.08e-4  2.57e-6
+
+   0.013  2.32e-5  1.70e-8
+   0.021  4.88e-6  2.00e-9
+   0.032  9.24e-6  1.15e-6
 </code></pre><h1 id="methods">methods</h1>
 <pre><code class="lang-js"><span class="kd">var</span> <span class="nx">show</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-show&apos;</span><span class="p">)</span>
 </code></pre>

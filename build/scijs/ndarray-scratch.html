@@ -1,7 +1,7 @@
 <h1 id="ndarray-scratch"><a target="_blank" href="http://github.com/scijs/ndarray-scratch">ndarray-scratch</a></h1>
 <p>A simple wrapper for typedarray-pool.  I got tired of manually constructing ndarrays from typedarrays, and so this module saves some keystrokes/sanity.</p>
-<p><a href="https://ci.testling.com/mikolalysenko/ndarray-scratch"><img src="https://ci.testling.com/mikolalysenko/ndarray-scratch.png" alt="testling badge"></a></p>
-<p><a href="http://travis-ci.org/mikolalysenko/ndarray-scratch"><img src="https://secure.travis-ci.org/mikolalysenko/ndarray-scratch.png" alt="build status"></a></p>
+<p><a href="https://ci.testling.com/scijs/ndarray-scratch"><img src="https://ci.testling.com/scijs/ndarray-scratch.png" alt="testling badge"></a></p>
+<p><a href="http://travis-ci.org/scijs/ndarray-scratch"></a></p>
 <h1 id="example">Example</h1>
 <pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">pool</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;ndarray-scratch&quot;</span><span class="p">)</span>
 
@@ -32,6 +32,20 @@
 <li><code>dtype</code> is the datatype of the array (default <code>&quot;double&quot;</code>)</li>
 </ul>
 <p><strong>Returns</strong> A temporary ndarray initialized to 0</p>
+<h3 id="-pool-ones-shape-dtype-"><code>pool.ones(shape[,dtype])</code></h3>
+<p>Creates a scratch ndarray initialized to <code>1</code></p>
+<ul>
+<li><code>shape</code> is the shape of the resulting array</li>
+<li><code>dtype</code> is the datatype of the array (default <code>&quot;double&quot;</code>)</li>
+</ul>
+<p><strong>Returns</strong> A temporary ndarray initialized to 1</p>
+<h3 id="-pool-eye-shape-dtype-"><code>pool.eye(shape[,dtype])</code></h3>
+<p>Creates a scratch ndarray initialized to <code>1</code> if all indices equal, <code>0</code> otherwise.</p>
+<ul>
+<li><code>shape</code> is the shape of the resulting array</li>
+<li><code>dtype</code> is the datatype of the array (default <code>&quot;double&quot;</code>)</li>
+</ul>
+<p><strong>Returns</strong> A temporary ndarray initialized to the identity matrix</p>
 <h3 id="-pool-free-array-"><code>pool.free(array)</code></h3>
 <p>Releases a temporary ndarray</p>
 <ul>

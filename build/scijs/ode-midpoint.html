@@ -1,0 +1,56 @@
+<h1 id="ode-midpoint-build-status-https-travis-ci-org-scijs-ode-midpoint-svg-https-travis-ci-org-scijs-ode-midpoint-npm-version-https-badge-fury-io-js-ode-midpoint-svg-http-badge-fury-io-js-ode-midpoint-dependency-status-https-david-dm-org-scijs-ode-midpoint-svg-https-david-dm-org-scijs-ode-midpoint-"><a target="_blank" href="http://github.com/scijs/ode-midpoint">ode-midpoint <a href="https://travis-ci.org/scijs/ode-midpoint"></a> <a href="http://badge.fury.io/js/ode-midpoint"></a> <a href="https://david-dm.org/scijs/ode-midpoint"></a></a></h1>
+<blockquote>
+<p>Integrate a system of ODEs using the Second Order Runge-Kutta (Midpoint) method</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>This module integrates a system of ordinary differential equations of the form </p><p align="center"><img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/yt-ft-yt-fae25965d3.png" width="151.5" height="25"></p> <p align="center"><img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/yt_0-y_0-42d14f447f.png" width="91.5" height="24"></p> where <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/y-adb83ba1d7.png" width="14.5" height="16.5"> is a vector of length <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/n-66e1b1ee17.png" width="16" height="13">. Given time step <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/delta-t-9813ae7971.png" width="28" height="18">, the midpoint method integrates the ODE with update <p align="center"><img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/y_n1-y_n-delta-t-fleft-t_n-fracdelta-t2-y_n-f-0a92f940fc.png" width="416.5" height="52"></p><p></p>
+<h2 id="install">Install</h2>
+<pre><code class="lang-bash"><span class="nv">$ </span>npm install ode-midpoint
+</code></pre>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">midpoint</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ode-midpoint&apos;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">deriv</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dydt</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">dydt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="nx">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="nx">dydt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="nx">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">y0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="kd">var</span> <span class="nx">t0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="kd">var</span> <span class="nx">dt</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="nx">n</span>
+
+<span class="kd">var</span> <span class="nx">integrator</span> <span class="o">=</span> <span class="nx">midpoint</span><span class="p">(</span> <span class="nx">y0</span><span class="p">,</span> <span class="nx">deriv</span><span class="p">,</span> <span class="nx">t0</span><span class="p">,</span> <span class="nx">dt</span> <span class="p">)</span>
+
+<span class="c1">// Integrate 1000 steps:</span>
+<span class="nx">integrator</span><span class="p">.</span><span class="nx">steps</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
+
+<span class="c1">// Integrate all the way around a circle:</span>
+<span class="c1">// =&gt; integrator.y = [ 1.0000001939636542, 0.000041341220643982546 ]</span>
+</code></pre>
+<h2 id="api">API</h2>
+<h3 id="-require-ode-midpoint-y0-deriv-t0-dt-"><code>require(&apos;ode-midpoint&apos;)( y0, deriv, t0, dt )</code></h3>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>y0</code>: an array or typed array containing initial conditions. This vector is updated in-place with each integrator step.</li>
+<li><code>deriv</code>: a function that calculates the derivative. Format is <code>function( dydt, y, t )</code>. Inputs are current state <code>y</code> and current time <code>t</code>, output is calcualted derivative <code>dydt</code>.</li>
+<li><code>t0</code>: initial time <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/t-3f19307093.png" width="11.5" height="16.5">.</li>
+<li><code>dt</code>: time step <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/delta-t-9813ae7971.png" width="28" height="18">.</li>
+</ul>
+<p><strong>Returns</strong>:
+Initialized integrator object.</p>
+<p><strong>Properties:</strong></p>
+<ul>
+<li><code>n</code>: dimension of <code>y0</code>.</li>
+<li><code>y</code>: current state. Initialized as a shallow copy of input <code>y0</code>.</li>
+<li><code>deriv</code>: function that calcualtes derivative. Initialized from input. May be changed.</li>
+<li><code>t</code>: current time, incremented by <code>dt</code> with each time step.</li>
+<li><code>dt</code>: time step <img alt="undefined" valign="middle" src="https://raw.githubusercontent.com/scijs/ode-midpoint/master/images/delta-t-9813ae7971.png" width="28" height="18">. Initialized from input <code>dt</code>. May be changed.</li>
+</ul>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><code>.step()</code>: takes a single step of the midpoint integrator and stores the result in-place in the <code>y</code> property.</li>
+<li><code>.steps( n )</code>: takes <code>n</code> steps of the midpoint integrator, storing the result in-place in the <code>y</code> property.</li>
+</ul>
+<h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>
