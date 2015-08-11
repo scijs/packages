@@ -1,0 +1,55 @@
+<h1 id="ndarray-band"><a target="_blank" href="http://github.com/scijs/ndarray-band">ndarray-band</a></h1>
+<p><a href="https://travis-ci.org/scijs/ndarray-band"></a> <a href="http://badge.fury.io/js/ndarray-band"></a> <a href="https://david-dm.org/scijs/ndarray-band"></a></p>
+<p>Create a view of a band of an ndarray</p>
+<h2 id="introduction">Introduction</h2>
+<p>First things first, if bands are meaningful in your matrix problem, there&apos;s a chance you should really just be dealing with the bands directly using algorithms designed to work with, for example, tridiagonal or Toeplitz matrices. But if you need a band, then this module provides a convenience function to extract a view of a band, i.e. a diagonal with an offset.</p>
+<p>Note that for an ndarray of dimension <img alt="d" valign="middle" width="14.5" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/d-16937d4263.png">, since the band is a one-dimensional array, only <img alt="d-1" valign="middle" width="49" height="22" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/d-1-0b692e3677.png"> offsets are necessary. Thus, the offsets are given for dimensions <img alt="1, 2, \ldots, d-1" valign="middle" width="122" height="24" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/1-2-ldots-d-1-22dde7ff62.png">.</p>
+<p>Also note that for dimensions greater than two, this gets a little confusing. Here&apos;s a more precise specification that&apos;s not exactly less confusing, but at least it&apos;s precise: Given an array <img alt="A" valign="middle" width="19" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/a-ab9f9c6779.png"> and offsets <img alt="\mathrm{offset}_1" valign="middle" width="59" height="23" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/mathrmoffset_1-b161aee517.png">, <img alt="\mathrm{offset}_2" valign="middle" width="59" height="23" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/mathrmoffset_2-bb6efbd13a.png">, ..., <img alt="\mathrm{offset}_{d-1}" valign="middle" width="80" height="25" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/mathrmoffset_d-1-7d7845f591.png">, ndarray-band returns a view of <img alt="A" valign="middle" width="19" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/a-ab9f9c6779.png"> at </p>
+<p align="center"><img alt="A(\mathrm{offset}_1 + i_1 + i, \mathrm{offset}_2 + i_1 + i,\; \ldots,\;\mathrm{offset}_{d-1} + i_1 + i, i_1 + i)" valign="middle" width="554.5" height="49" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/amathrmoffset_1-i_1-i-mathrmoffset_2-i_1-i-ld-c37a4e01e5.png"></p>
+
+<p> where <img alt="i_1" valign="middle" width="20" height="23" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/i_1-b3e00247b1.png"> is the the first element that falls within the bounds of <img alt="A" valign="middle" width="19" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/a-ab9f9c6779.png"> and <img alt="i" valign="middle" width="11" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/i-7e6a3286a9.png"> is the index of the view starting at zero. The length of the band will be such that it only ever contains element within the bounds of <img alt="A" valign="middle" width="19" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/a-ab9f9c6779.png">.</p>
+<p>To make that actually concrete, the bands of a <img alt="3 \times 4" valign="middle" width="48.5" height="22" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/3-times-4-9908d9131f.png"> matrix are indexed like:</p>
+<p align="center"><img alt="\left[ \begin{array}{cccc}
+c_0 &amp; d_0 &amp; e_0 &amp; f_0 \\
+b_0 &amp; c_1 &amp; d_1 &amp; e_1 \\
+a_0 &amp; b_1 &amp; c_2 &amp; d_2
+\end{array}\right]" valign="middle" width="188" height="94" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/left-beginarraycccc-c_0-d_0-e_0-f_0-b_0-c_1-d-0158dede7b.png"></p>
+
+
+
+<h2 id="example">Example</h2>
+<p>Consider constructing the <img alt="10 \times 10" valign="middle" width="68.5" height="22" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/10-times-10-c93cbd0678.png"> 1-D discrete Laplacian operator. Of course in any realistic problem you&apos;d obviously want to avoid constructing this at all costs, but there are cases where it&apos;s necessary or at least useful to refer to a band view.</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">pool</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-scratch&apos;</span><span class="p">),</span>
+    <span class="nx">ops</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-ops&apos;</span><span class="p">),</span>
+    <span class="nx">band</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-band&apos;</span><span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="nx">pool</span><span class="p">.</span><span class="nx">zeros</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="nx">ops</span><span class="p">.</span><span class="nx">assigns</span><span class="p">(</span> <span class="nx">band</span><span class="p">(</span><span class="nx">A</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>  <span class="mi">1</span> <span class="p">)</span>  <span class="c1">// (superdiagonal)</span>
+<span class="nx">ops</span><span class="p">.</span><span class="nx">assigns</span><span class="p">(</span> <span class="nx">band</span><span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">2</span> <span class="p">)</span>  <span class="c1">// (diagonal)</span>
+<span class="nx">ops</span><span class="p">.</span><span class="nx">assigns</span><span class="p">(</span> <span class="nx">band</span><span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>  <span class="mi">1</span> <span class="p">)</span>  <span class="c1">// (subdiagonal)</span>
+
+<span class="c1">//        [ -2    1    0    0    0    0    0    0    0    0 ]</span>
+<span class="c1">//        [  1   -2    1    0    0    0    0    0    0    0 ]</span>
+<span class="c1">//        [  0    1   -2    1    0    0    0    0    0    0 ]</span>
+<span class="c1">//        [  0    0    1   -2    1    0    0    0    0    0 ]</span>
+<span class="c1">//  A  =  [  0    0    0    1   -2    1    0    0    0    0 ]</span>
+<span class="c1">//        [  0    0    0    0    1   -2    1    0    0    0 ]</span>
+<span class="c1">//        [  0    0    0    0    0    1   -2    1    0    0 ]</span>
+<span class="c1">//        [  0    0    0    0    0    0    1   -2    1    0 ]</span>
+<span class="c1">//        [  0    0    0    0    0    0    0    1   -2    1 ]</span>
+<span class="c1">//        [  0    0    0    0    0    0    0    0    1   -2 ]</span>
+</code></pre>
+<h2 id="install">Install</h2>
+<pre><code class="lang-sh"><span class="nv">$ </span>npm install ndarray-band
+</code></pre>
+<h2 id="api">API</h2>
+<h3 id="-require-ndarray-band-a-offsets-"><code>require(&apos;ndarray-band&apos;)( A, offsets )</code></h3>
+<p>Create a view of a band of an ndarray given offsets along the dimensions.</p>
+<ul>
+<li><code>A</code>: the ndarray of dimension <img alt="d" valign="middle" width="14.5" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/d-16937d4263.png"> of which to create a view</li>
+<li><code>offsets</code>: an array of length <img alt="d-1" valign="middle" width="49" height="22" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/d-1-0b692e3677.png"> containing the offset of the band along the respective dimensions. For the special case <img alt="d = 1" valign="middle" width="51" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/d-1-7ad594a652.png">, the band is equal to the original vector so the offset is unused. For the special case <img alt="d = 2" valign="middle" width="51" height="20" src="https://raw.githubusercontent.com/scijs/ndarray-band/master/docs/images/d-2-557127d7f6.png">, there is only one offset so a scalar is permitted in place of an array.</li>
+</ul>
+<p><strong>Returns</strong>: a 1-D ndarray starting at element 0 and of whatever length required such that the view will never contain an element outside the original ndarray.</p>
+<h2 id="credits">Credits</h2>
+<p>(c) 2015 Ricky Reusser. MIT License</p>

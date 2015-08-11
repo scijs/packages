@@ -12,8 +12,10 @@
 <h2 id="usage">Usage</h2>
 <pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ldl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span> <span class="s1">&apos;ndarray-ldl-factorization&apos;</span> <span class="p">);</span>
 </code></pre>
-<h4 id="ldl-a-l-d-">ldl(A, L, d)</h4>
-<p>This function calculates the LDL decomposition of matrix <code>A = LDL^t</code>, where <code>L</code> is a lower-unit triangular matrix and <code>D</code> is a diagonal matrix. Consult the book <em>Matrix computations</em> (3rd ed.) by Gene H. Golub and Charles F. Van Loan for further information. The function takes <code>L</code> and <code>d</code>, the vector of diagonal elements of <code>D</code>, as arguments and changes them during execution. If the function completes without error, it returns <code>true</code>, otherwise <code>false</code>.</p>
+<h4 id="-ldl-a-l-d-"><code>ldl(A, L, d)</code></h4>
+<p>This function calculates the LDL decomposition of matrix <code>A = LDL^t</code>, where <code>L</code> is a lower-unit triangular matrix and <code>D</code> is a diagonal matrix. Consult the book <em>Matrix computations</em> (3rd ed.) by Gene H. Golub and Charles F. Van Loan for further information. The function takes <code>L</code> and <code>d</code>, the vector of diagonal elements of <code>D</code>, as arguments and changes them during execution. Note in particular the the upper triangular part of <code>L</code> is left untouched and so is <em>not</em> automatically zeroed.</p>
+<h4 id="-ldl-a-"><code>ldl(A)</code></h4>
+<p>This function calculates the in-place LDL decomposition of matrix <code>A = LDL^t</code>. It is equivalent to <code>ldl( A, A, diag(A) )</code> using <code>diag = require(&apos;ndarray-diagonal&apos;)</code>.</p>
 <h2 id="examples">Examples</h2>
 <pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray&apos;</span><span class="p">),</span>
     <span class="nx">show</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-show&apos;</span><span class="p">),</span>
@@ -32,9 +34,9 @@
 <span class="cm">   9.000   -1.000    2.000</span>
 <span class="cm">  -1.000    8.000   -5.000</span>
 <span class="cm">   2.000   -5.000    7.000</span>
-<span class="cm">/*</span>
+<span class="cm">*/</span>
 
-<span class="cm">console.log( &apos;L:\n&apos; + show(L) );</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">&apos;L:\n&apos;</span> <span class="o">+</span> <span class="nx">show</span><span class="p">(</span><span class="nx">L</span><span class="p">)</span> <span class="p">);</span>
 
 <span class="cm">/*</span>
 <span class="cm">   1.000   -0.111    0.222</span>
@@ -53,7 +55,7 @@
 </code></pre>
 <h2 id="tests">Tests</h2>
 <h3 id="unit">Unit</h3>
-<p>Unit tests use the <a href="https://github.com/substack/tape">Tape</a> test framework. To calculate code coverage, the package makes use of <a href="https://github.com/substack/coverify">Coverify</a>.To run the tests, execute the following command in the top-level application directory:</p>
+<p>Unit tests use the <a href="https://github.com/substack/tape">Tape</a> test framework. To run the tests, execute the following command in the top-level application directory:</p>
 <pre><code class="lang-bash"><span class="nv">$ </span>npm <span class="nb">test</span>
 </code></pre>
 <hr>
