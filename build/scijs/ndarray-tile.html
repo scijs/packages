@@ -1,0 +1,47 @@
+<h1 id="ndarray-tile-build-status-https-travis-ci-org-scijs-ndarray-tile-svg-https-travis-ci-org-scijs-ndarray-tile-npm-version-https-badge-fury-io-js-ndarray-tile-svg-https-badge-fury-io-js-ndarray-tile-js-standard-style-https-img-shields-io-badge-code-20style-standard-brightgreen-svg-http-standardjs-com-"><a target="_blank" href="http://github.com/scijs/ndarray-tile">ndarray-tile <a href="https://travis-ci.org/scijs/ndarray-tile"></a> <a href="https://badge.fury.io/js/ndarray-tile"></a> <a href="http://standardjs.com/"></a></a></h1>
+<blockquote>
+<p>Repeat an ndarray</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>This module takes an input ndarray and repeats it some number of times in each dimension.</p>
+<h2 id="examples">Examples</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">tile</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-tile&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray&apos;</span><span class="p">)</span>
+
+<span class="c1">// Repeat a vector:</span>
+<span class="nx">tile</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">(</span><span class="k">new</span> <span class="nx">Float64Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])),</span> <span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="c1">// =&gt; 1 2 3 1 2 3</span>
+
+
+<span class="c1">// Repeat a vector in a second dimension:</span>
+<span class="nx">tile</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">(</span><span class="k">new</span> <span class="nx">Float64Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="c1">// =&gt; 1 1</span>
+<span class="c1">//    2 2</span>
+<span class="c1">//    3 3</span>
+
+
+<span class="c1">// Tile a matrix in two dimensions:</span>
+<span class="nx">tile</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">(</span><span class="k">new</span> <span class="nx">Float64Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="c1">// =&gt; 1 2 1 2</span>
+<span class="c1">//    3 4 3 4</span>
+<span class="c1">//    1 2 1 2</span>
+<span class="c1">//    3 4 3 4</span>
+</code></pre>
+<h2 id="installation">Installation</h2>
+<pre><code class="lang-javascript"><span class="nx">$</span> <span class="nx">npm</span> <span class="nx">install</span> <span class="nx">ndarray</span><span class="o">-</span><span class="nx">tile</span>
+</code></pre>
+<h2 id="api">API</h2>
+<h4 id="-require-ndarray-tile-output-input-reps-"><code>require(&apos;ndarray-tile&apos;)([output,] input, reps)</code></h4>
+<p>Tile ndarray <code>input</code> a number of times according to <code>reps</code> in each dimension.</p>
+<p>Arguments:</p>
+<ul>
+<li><code>output</code> (optional): Optional output array. If not provided, storage is allocated using <a href="https://github.com/scijs/ndarray-scratch"><code>ndarray-scratch</code></a>.</li>
+<li><code>input</code>: The input ndarray to be tiled</li>
+<li><code>reps</code>:  An <code>Array</code> containing The number of repetitions in each dimension. Each entry must be an integer greater than zero.<ul>
+<li>If the length of <code>reps</code> is less than the dimemsionality of <code>input</code>, the ommitted dimensions are implicitly assumed to be one.</li>
+<li>If the length of reps is greater than the dimensionality of <code>input</code>, then <code>input</code> is tiled in the new dimensions as specified.</li>
+</ul>
+</li>
+</ul>
+<h2 id="license">License</h2>
+<p>&#xA9; 2016 Ricky Reusser. MIT License.</p>

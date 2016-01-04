@@ -1,0 +1,441 @@
+<h1 id="scijs-ndarray-for-matlab-users"><a target="_blank" href="http://github.com/scijs/scijs-ndarray-for-matlab-users">scijs/ndarray for MATLAB users</a></h1>
+<blockquote>
+<p>Common <a href="https://github.com/scijs/ndarray">scijs/ndarray</a> operations for people familar with MATLAB (or at least not familiar with <a href="https://github.com/scijs">scijs</a>)</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>This document is a work in progress! Inspired by <a href="https://docs.scipy.org/doc/numpy-dev/user/numpy-for-matlab-users.html">Numpy for Matlab users</a>, it aspires to be <a href="http://mathesaurus.sourceforge.net/matlab-numpy.html">NumPy for MATLAB users</a>. The intent is both to communicate what is possible in JavaScript using scijs and to illuminate which parts still need work. I&apos;ll be mostly offline until the new year so I may not respond immediately, but comments, question and pull requests are more than welcome.</p>
+<h2 id="memory-management">Memory Management</h2>
+<p>First things first, ndarrays are similar to but different to work with than MATLAB arrays. To get a sense for how managing ndarrays differs from managing MATLAB arrays, consider the diagonal of a 5&#xD7;5 matrix:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">pool</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-scratch&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">diag</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-diagonal&apos;</span><span class="p">)</span>
+
+<span class="c1">// A 5x5 matrix of ones:</span>
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">pool</span><span class="p">.</span><span class="nx">ones</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="c1">// A view of the diagonal of a:</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">diag</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+</code></pre>
+<p>Even though they have different dimensionality and shape, the internal data contained in ndarray <code>x</code> is identical by reference to that in <code>a</code>. The difference is that the strides and offsets of <code>x</code> are set to select only the diagonal elements of <code>a</code>. To see this directly, note the data of <code>x</code> still has 25 numbers even though it&apos;s shape is a vector of length 5:</p>
+<pre><code class="lang-javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+<span class="c1">// =&gt; View1dfloat64 {</span>
+<span class="c1">//   data: </span>
+<span class="c1">//    Float64Array {&apos;0&apos;: 1, &apos;1&apos;: 1, &apos;2&apos;: 1, ..., &apos;22&apos;: 1, &apos;23&apos;: 1, &apos;24&apos;: 1 },</span>
+<span class="c1">//   shape: [ 5 ],</span>
+<span class="c1">//   stride: [ 6 ],</span>
+<span class="c1">//   offset: 0 }</span>
+</code></pre>
+<p>Cloning simplifies the representation by allocating new storage and copying only the elements exposed by view <code>x</code>:</p>
+<pre><code class="lang-javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">clone</span><span class="p">(</span><span class="nx">x</span><span class="p">))</span>
+<span class="c1">// =&gt; View1dfloat64 {</span>
+<span class="c1">//      data: Float64Array { &apos;0&apos;: 1, &apos;1&apos;: 1, &apos;2&apos;: 1, &apos;3&apos;: 1, &apos;4&apos;: 1 },</span>
+<span class="c1">//      shape: [ 5 ],</span>
+<span class="c1">//      stride: [ 1 ],</span>
+<span class="c1">//      offset: 0 }</span>
+</code></pre>
+<p>As a result, a nice advantage of ndarrays the ability to manipulate representations without the need to iterate directly or allocate additional storage (beyond the lightweight ndarray wrapper). The example below uses in-place operations of <a href="https://github.com/scijs/ndarray-ops">ndarray-ops</a> to assign the scalar 3 to the diagonal and double the first two columns of <code>a</code>:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ops</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-ops&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">show</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-show&apos;</span><span class="p">)</span>
+
+<span class="c1">// Set each element of the diagonal of a (5x5 matrix of ones) to 3:</span>
+<span class="nx">ops</span><span class="p">.</span><span class="nx">assigns</span><span class="p">(</span><span class="nx">diag</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="c1">// Double the first two columns:</span>
+<span class="nx">ops</span><span class="p">.</span><span class="nx">mulseq</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">hi</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">show</span><span class="p">(</span><span class="nx">a</span><span class="p">))</span>
+<span class="c1">// =&gt; 6.000    2.000    1.000    1.000    1.000</span>
+<span class="c1">//    2.000    6.000    1.000    1.000    1.000</span>
+<span class="c1">//    2.000    2.000    3.000    1.000    1.000</span>
+<span class="c1">//    2.000    2.000    1.000    3.000    1.000</span>
+<span class="c1">//    2.000    2.000    1.000    1.000    3.000</span>
+</code></pre>
+<h2 id="operations">Operations</h2>
+<p>The table below collects common matlab operations as well as their ndarray analogs. Not all operations have a counterpart, some because of features and shortcomings of the JavaScript language, some because of differences in memory management, and some because they&apos;re simply not yet implemented.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">MATLAB</th>
+<th style="text-align:left">JavaScript</th>
+<th style="text-align:left">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>ndims(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arraydimension"><code>a.dimension</code></a></td>
+<td style="text-align:left">get the number of dimensions of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>numel(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arraysize"><code>a.size</code></a></td>
+<td style="text-align:left">get the number of elements of an arary</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>size(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#members"><code>a.shape</code></a></td>
+<td style="text-align:left">get the size of the array</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>size(a,n)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#members"><code>a.shape</code></a><code>[n-1]</code></td>
+<td style="text-align:left">get the number of elements of the n-th dimension of array <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[1 2 3; 4 5 6 ]</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#constructor"><code>ndarray</code></a><code>([1,2,3,4,5,6],[2,3])</code></td>
+<td style="text-align:left">2&#xD7;3 matrix literal (using <code>Array</code> type)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#constructor"><code>ndarray</code></a><code>(new Float64Array([1,2,3,4,5,6]),[2,3])</code></td>
+<td style="text-align:left">2&#xD7;3 matrix literal (using 64-bit typed array)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-pack"><code>pack</code></a><code>([[1,2,3],[4,5,6]])</code></td>
+<td style="text-align:left">2&#xD7;3 matrix literal from nested array</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(end)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arraygetij"><code>a.get</code></a><code>(a.shape[0]-1)</code></td>
+<td style="text-align:left">access last element in the 1&#xD7;n matrix <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(2, 5)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arraygetij"><code>a.get</code></a><code>(1, 4)</code></td>
+<td style="text-align:left">access element in second row, fifth column</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(2, :)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arraypickp0-p1-"><code>a.pick</code></a><code>(1, null)</code></td>
+<td style="text-align:left">entire second row of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(1:5, :)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arrayhiijk"><code>a.hi</code></a><code>(5, null)</code></td>
+<td style="text-align:left">the first five rows of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(end-4:end, :)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arrayloijk"><code>a.lo</code></a><code>(a.shape[0]-5, null)</code></td>
+<td style="text-align:left">the last five rows of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(1:3, 5:9)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arrayhiijk"><code>a.hi</code></a><code>(3, 9).lo(0, 4)</code></td>
+<td style="text-align:left">rows one to three and columns five to nine of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a([2, 4, 5], [1, 3])</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">rows 2, 4, and 5 and columns 1 and 3.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(3:2:21, :)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arrayhiijk"><code>a.hi</code></a><code>(21, null).</code><a href="https://github.com/scijs/ndarray#arrayloijk"><code>lo</code></a><code>(2, null).</code><a href="https://github.com/scijs/ndarray#arraystepijk"><code>step</code></a><code>(2, 1)</code></td>
+<td style="text-align:left">every other row of <code>a</code>, starting with the third and going to the twenty-first</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(1:2:end, :)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arraystepijk"><code>a.step</code></a><code>(2, 1)</code></td>
+<td style="text-align:left">every other row of <code>a</code>, starting with the first</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(end:-1:1, :)</code> or <code>flipup(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arraystepijk"><code>a.step</code></a><code>(-1, 1)</code></td>
+<td style="text-align:left"><code>a</code> with rows in reverse order</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a([1:end 1], :)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>a</code> with copy of the first rows appended to the end</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a.&apos;</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray#arraytransposep0-p1-"><code>a.transpose</code></a><code>(1, 0)</code></td>
+<td style="text-align:left">transpose of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a&apos;</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">conjugate transpose of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c = a * b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndgemm"><code>ndgemm</code></a><code>(c, a, b)</code></td>
+<td style="text-align:left">matrix multiply</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c = a + b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.add</code></a><code>(c, a, b)</code></td>
+<td style="text-align:left">matrix addition</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c = a + 2</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.adds</code></a><code>(c, a, 2)</code></td>
+<td style="text-align:left">matrix + scalar addition</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a += b</code> (not available in MATLAB)</td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.addeq</code></a><code>(a, b)</code></td>
+<td style="text-align:left">in-place matrix addition</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c = a .* b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.mul</code></a><code>(c, a, b)</code></td>
+<td style="text-align:left">element-wise multiply</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a = a .* b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.muleq</code></a><code>(a, b)</code></td>
+<td style="text-align:left">element-wise multiply (in-place)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c = a ./ b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.div</code></a><code>(c, a, b)</code></td>
+<td style="text-align:left">element-wise division</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a = a ./ b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.diveq</code></a><code>(a, b)</code></td>
+<td style="text-align:left">element-wise division (in-place)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a.^3</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.pows</code></a><code>(a, 3)</code></td>
+<td style="text-align:left">element-wise scalar exponentiation</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>(a&gt;0.5)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">matrix whose i,jth element is (a_ij &gt; 0.5)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>find(a&gt;0.5)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">find the indices where (a &gt; 0.5)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(:, find(v&gt;0.5))</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">extract the columns of a where vector v &gt; 0.5</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(a&lt;0.5)=0</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>a</code> with elements less than 0.5 zeroed out</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a .* (a&gt;0.5)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>a</code> with elements less than 0.5 zeroed out</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a(:) = 3</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops"><code>ops.assigns</code></a><code>(a, 3)</code></td>
+<td style="text-align:left">set all values to the same scalar value</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>y = x</code></td>
+<td style="text-align:left"><code>y =</code><a href="https://www.npmjs.com/package/ndarray-scratch#pool-clone-array"><code>pool.clone</code></a><code>(x)</code></td>
+<td style="text-align:left">clone by value</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>y = x(2, :)</code></td>
+<td style="text-align:left"><code>y = x.pick(1, null)</code></td>
+<td style="text-align:left">slices are by reference</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>1:10</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">create an increasing vector</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>0:9</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">create an increasing vector</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>zeros(3, 4)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-scratch#poolzerosshapedtype"><code>pool.zeros</code></a><code>([3, 4], &apos;float64&apos;)</code></td>
+<td style="text-align:left">3&#xD7;4 rand-2 array full of 64-bit floating point zeros</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>zeros(3, 4, 5)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-scratchpoolzerosshapedtype"><code>pool.zeros</code></a><code>([3, 4, 5], &apos;float64&apos;)</code></td>
+<td style="text-align:left">3&#xD7;4&#xD7;5 rank-3 array full of 64-bit floating point zeros</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ones(3, 4)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-scratch#poolonesshapedtype"><code>pool.ones</code></a><code>([3, 4], &apos;float64&apos;)</code></td>
+<td style="text-align:left">3&#xD7;4 rank-2 array full of 64-bit floating point ones</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>eye(3)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-scratch#pooleyeshapedtype"><code>pool.eye</code></a><code>([3, 3], &apos;float64&apos;)</code></td>
+<td style="text-align:left">3&#xD7;3 identity matrix with 64-bit floating point precision</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>diag(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-diagonal"><code>diag</code></a><code>(a)</code></td>
+<td style="text-align:left">vector of diagonal elements of <code>a</code> (returns diagonal by reference)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>diag(a, 0)</code></td>
+<td style="text-align:left"><code>b =</code><a href="https://github.com/scijs/ndarray-scratch"><code>pool.zeros</code></a><code>(a.shape)</code> <br> <a href="https://github.com/scijs/ndarray-ops"><code>ops.assign</code></a><code>(</code><a href="https://github.com/scijs/ndarray-diagonal"><code>diag</code></a><code>(b),</code><a href="https://github.com/scijs/ndarray-diagonal"><code>diag</code></a><code>(a))</code></td>
+<td style="text-align:left">square diagonal matrix whose nonzero values are the elements of a</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>rand(3, 4)</code></td>
+<td style="text-align:left"><a href="https://www.npmjs.com/package/ndarray-fill"><code>fill</code></a><code>(</code><a href="https://github.com/scijs/ndarray-scratch#poolmallocshape-dtype"><code>pool.zeros</code></a><code>([3, 4]), Math.random)</code></td>
+<td style="text-align:left">random 3&#xD7;4 matrix</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>linspace(1, 3, 4)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-linspace"><code>linspace</code></a><code>(1, 3, 4)</code></td>
+<td style="text-align:left">4 equally spaced samples between 1 and 3, inclusive</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[x, y] = meshgrid(0:8, 0:5)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">two 2D arrays: one of x values, one of y values</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[x, y] = meshgrid([1, 2, 4], [2, 4, 5])</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>repmat(a, m, n)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-tile"><code>tile</code></a><code>(a, [m, n])</code></td>
+<td style="text-align:left">create m&#xD7;n copies of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[a b]</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">concatenate columns of <code>a</code> and <code>b</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[a; b]</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">concatenate rows of <code>a</code> and <code>b</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>max(max(a))</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">maximum element of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>max(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops#map-reduce-aggregate-operators"><code>ops.max</code></a><code>(a)</code></td>
+<td style="text-align:left">maximum element in <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>norm(v)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops#map-reduce-aggregate-operators"><code>ops.norm2</code></a><code>(v)</code></td>
+<td style="text-align:left">L2 norm of vector <code>v</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c = a &amp; b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops#conventions"><code>ops.band</code></a><code>(c, a, b)</code></td>
+<td style="text-align:left">element-by-element AND operator</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c = a | b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-ops#conventions"><code>ops.bor</code></a><code>(c, a, b)</code></td>
+<td style="text-align:left">element-by-element OR operator</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>inv(a)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">inverse of square matrix <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pinv(a)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">pseudo-inverse of matrix <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>rank(a)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">rank of matrix <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>a\b</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-lup-factorization"><code>lup</code></a><code>(a, a, P)</code><br><a href="https://github.com/scijs/ndarray-lup-solve"><code>solve</code></a><code>(a, a, P, b)</code></td>
+<td style="text-align:left">solution of <code>a x = b</code> for <code>x</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>b/a</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">solution of <code>x a = b</code> for <code>x</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>chol(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-cholesky-factorization"><code>chol</code></a><code>(a, L)</code></td>
+<td style="text-align:left">cholesky factorization of matrix</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[V, D] = eig(a)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">eigenvalues and eigenvectors of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[V, D] = eig(a, b)</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">eigenvalues and eigenvectors of <code>a</code>, <code>b</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[Q, R, P] = qr(a, 0)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-householder-qr#usage"><code>qr.factor</code></a><code>(A, d)</code><br><a href="https://github.com/scijs/ndarray-householder-qr#usage"><code>qr.constructQ</code></a><code>(A, Q)</code></td>
+<td style="text-align:left">QR decomposition. (Depending on the use, you can likely use Q without constructing explicitly. <a href="https://github.com/scijs/ndarray-householder-qr#usage">See documentation</a>.)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[L, U, P] = lu(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-lup-factorization#requirendarray-lup-factorization-a-l-p-"><code>lup</code></a><code>(A, L, P)</code></td>
+<td style="text-align:left">LU decomposition</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fft(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-fft#requirendarray-fftdir-x-y"><code>fft</code></a><code>(1, ar, ai)</code></td>
+<td style="text-align:left">Fourier transform of <code>a</code>. Javascript does not have a complex type so real and imaginary parts must be passed separately.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ifft(a)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-fft#requirendarray-fftdir-x-y"><code>fft</code></a><code>(-1, ar, ai)</code></td>
+<td style="text-align:left">inverse Fourier transform of <code>a</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[b, I] = sortrows(a, i)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-sort"><code>sort</code></a><code>(a)</code></td>
+<td style="text-align:left">sort the rows of the matrix</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-sort"><code>sort</code></a><code>(a.transpose(1, 0))</code></td>
+<td style="text-align:left">sort the column of the matrix</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>regress(y, X)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-householder-qr#factor-a-d-"><code>qr.factor</code></a><code>( A, d );</code><br> <a href="https://github.com/scijs/ndarray-householder-qr#solve-a-d-x-"><code>qr.solve</code></a><code>( A, d, y );</code></td>
+<td style="text-align:left">multilinear regression</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>decimate(x, q)</code></td>
+<td style="text-align:left"><a href="https://github.com/scijs/ndarray-resample"><code>resample</code></a><code>(output, input)</code></td>
+<td style="text-align:left">downsample with low-pass filtering (<a href="https://github.com/scijs/ndarray-resample"><code>resample</code></a> downsamples by a factor of two)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>unique</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>squeeze(a)</code></td>
+<td style="text-align:left"><a href="http://github.com/scijs/scijs-ndarray-for-matlab-users/blob/master/"><code>squeeze</code></a><code>(a)</code></td>
+<td style="text-align:left">Remove singleton dimensions of <code>a</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="license">License</h2>
+<p>&#xA9; 2015 Ricky Reusser. MIT License. </p>
