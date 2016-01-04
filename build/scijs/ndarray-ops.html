@@ -99,7 +99,7 @@
 <li>assign</li>
 <li>assigns</li>
 </ul>
-<p><code>op.assign(dest, src)</code> copies one array into another, while <code>op.assigns(dest, val)</code> broadcasts a scalar to all elements of an array.</p>
+<p><code>ops.assign(dest, src)</code> copies one array into another, while <code>ops.assigns(dest, val)</code> broadcasts a scalar to all elements of an array.</p>
 <h3 id="nullary-operators">Nullary operators</h3>
 <p>Nullary operators only take on argument for the array they are assigning to, and don&apos;t have any variations.  Currently there is only one of these:</p>
 <ul>
@@ -107,10 +107,10 @@
 </ul>
 <h3 id="unary-operators">Unary operators</h3>
 <p>Unary operators have one of two forms, they can be written as either:</p>
-<pre><code class="lang-javascript"><span class="nx">op</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">dest</span><span class="p">,</span> <span class="nx">arg</span><span class="p">)</span>
+<pre><code class="lang-javascript"><span class="nx">ops</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">dest</span><span class="p">,</span> <span class="nx">arg</span><span class="p">)</span>
 </code></pre>
 <p>Or:</p>
-<pre><code class="lang-javascript"><span class="nx">op</span><span class="p">.</span><span class="nx">abseq</span><span class="p">(</span><span class="nx">dest</span><span class="p">)</span>
+<pre><code class="lang-javascript"><span class="nx">ops</span><span class="p">.</span><span class="nx">abseq</span><span class="p">(</span><span class="nx">dest</span><span class="p">)</span>
 </code></pre>
 <p>The former version sets dest = |arg|, while in the latter the operation is applied in place.  ndarray-ops exposes the following unary operators:</p>
 <ul>

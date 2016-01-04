@@ -1,0 +1,32 @@
+<h1 id="ndarray-squeeze-build-status-https-travis-ci-org-scijs-ndarray-squeeze-svg-https-travis-ci-org-scijs-ndarray-squeeze-npm-version-https-badge-fury-io-js-ndarray-squeeze-svg-https-badge-fury-io-js-ndarray-squeeze-js-standard-style-https-img-shields-io-badge-code-20style-standard-brightgreen-svg-http-standardjs-com-"><a target="_blank" href="http://github.com/scijs/ndarray-squeeze">ndarray-squeeze <a href="https://travis-ci.org/scijs/ndarray-squeeze"></a> <a href="https://badge.fury.io/js/ndarray-squeeze"></a> <a href="http://standardjs.com/"></a></a></h1>
+<blockquote>
+<p>Remove singleton dimensions from an ndarray</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>This module takes an input ndarray and removes any dimensions with length 1 or, optionally, specified dimensions with length 1.</p>
+<h2 id="examples">Examples</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray&apos;</span><span class="p">)</span>
+
+<span class="nx">squeeze</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="c1">// =&gt; ndarray([1, 2, 3, 4], [2, 2])</span>
+
+<span class="nx">squeeze</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1">// =&gt; ndarray([1, 2, 3, 4], [2, 1, 2, 1])</span>
+<span class="err">``</span>
+
+<span class="err">##</span> <span class="nx">Installation</span>
+
+<span class="err">```</span><span class="nx">javascript</span>
+<span class="nx">$</span> <span class="nx">npm</span> <span class="nx">install</span> <span class="nx">ndarray</span><span class="o">-</span><span class="nx">squeeze</span>
+</code></pre>
+<h2 id="api">API</h2>
+<h4 id="-require-ndarray-squeeze-input-axes-"><code>require(&apos;ndarray-squeeze&apos;)(input[, axes])</code></h4>
+<p>Arguments:</p>
+<ul>
+<li><code>input</code>: The input ndarray to be squeezed</li>
+<li><code>axes</code> (optional):  An <code>Array</code> list of dimensions to be squeezed. Non-singleton dimensions will be ignored. If not provided, all singleton dimensions will be removed.</li>
+</ul>
+<p>Returns:
+A new array view of the squeezed ndarray (i.e. a new ndarray object with the same underlying data).</p>
+<h2 id="license">License</h2>
+<p>&#xA9; 2016 Ricky Reusser. MIT License.</p>

@@ -1,0 +1,45 @@
+<h1 id="ndarray-linspace-build-status-https-travis-ci-org-scijs-ndarray-linspace-svg-https-travis-ci-org-scijs-ndarray-linspace-npm-version-https-badge-fury-io-js-ndarray-linspace-svg-https-badge-fury-io-js-ndarray-linspace-js-standard-style-https-img-shields-io-badge-code-20style-standard-brightgreen-svg-http-standardjs-com-"><a target="_blank" href="http://github.com/scijs/ndarray-linspace">ndarray-linspace <a href="https://travis-ci.org/scijs/ndarray-linspace"></a> <a href="https://badge.fury.io/js/ndarray-linspace"></a> <a href="http://standardjs.com/"></a></a></h1>
+<blockquote>
+<p>Fill an ndarray with equally spaced values</p>
+</blockquote>
+<h2 id="example">Example</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">linspace</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-linspace&apos;</span><span class="p">)</span>
+
+<span class="nx">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1">// =&gt; ndarray([2, 2.25, 2.5, 2.75, 3])</span>
+
+<span class="nx">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="nx">endpoint</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
+<span class="c1">// =&gt; ndarray([2, 2.25, 2.5, 2.75])</span>
+
+<span class="nx">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="nx">dtype</span><span class="o">:</span> <span class="s1">&apos;int8&apos;</span><span class="p">})</span>
+<span class="c1">// =&gt; ndarray([2, 2, 2, 2, 2, 3, 3, 3, 3, 4])</span>
+
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">pool</span><span class="p">.</span><span class="nx">zeros</span><span class="p">([</span><span class="mi">5</span><span class="p">])</span>
+<span class="nx">linspace</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1">// y =&gt; ndarray([1, 1.5, 2, 2.5, 3])</span>
+
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">pool</span><span class="p">.</span><span class="nx">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nx">linspace</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1">// y =&gt; [ 0, 0 ]</span>
+<span class="c1">//      [ 1, 1 ]</span>
+</code></pre>
+<h2 id="installation">Installation</h2>
+<pre><code class="lang-bash">npm install ndarray-linspace
+</code></pre>
+<h2 id="api">API</h2>
+<h4 id="require-ndarray-linspace-output-start-end-steps-options-">require(&apos;ndarray-linspace&apos;)([output,] start, end, steps[, options])</h4>
+<p>An array of equally spaced values.</p>
+<p>Arguments:</p>
+<ul>
+<li><code>output</code> (options): if provided, the destination array to be filled with values. If the number of dimensions is greater than one, then the length of the first dimension must match the number of values and the entire ndarray will be filled with the linspace corresponding to the index of the first dimension.</li>
+<li><code>start</code>: starting value of the interval</li>
+<li><code>end</code>: ending value of the interval</li>
+<li><code>steps</code>: number of divisions</li>
+<li><code>options</code> (optional): A hash of options. Options are:<ul>
+<li><code>dtype</code>: dtype of output array (only used if output array not specified)</li>
+<li><code>endpoint</code> (boolean): whether the output contains the endpoint of the interval</li>
+</ul>
+</li>
+</ul>
+<h2 id="license">License</h2>
+<p>&#xA9; 2015 Ricky Reusser. MIT License.</p>

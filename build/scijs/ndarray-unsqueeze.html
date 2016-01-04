@@ -1,0 +1,43 @@
+<h1 id="ndarray-unsqueeze-build-status-https-travis-ci-org-scijs-ndarray-unsqueeze-svg-https-travis-ci-org-scijs-ndarray-unsqueeze-npm-version-https-badge-fury-io-js-ndarray-unsqueeze-svg-https-badge-fury-io-js-ndarray-unsqueeze-js-standard-style-https-img-shields-io-badge-code-20style-standard-brightgreen-svg-http-standardjs-com-"><a target="_blank" href="http://github.com/scijs/ndarray-unsqueeze">ndarray-unsqueeze <a href="https://travis-ci.org/scijs/ndarray-unsqueeze"></a> <a href="https://badge.fury.io/js/ndarray-unsqueeze"></a> <a href="http://standardjs.com/"></a></a></h1>
+<blockquote>
+<p>Add singleton dimensions to an ndarray</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>This module takes an input ndarray and either appends a singleton dimension (a dimension of length one) or inserts it before a specific dimension.</p>
+<h2 id="examples">Examples</h2>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">ndarray</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray&apos;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">unsqueeze</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-unsqueeze&apos;</span><span class="p">)</span>
+
+<span class="nx">unsqueeze</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="c1">// =&gt; ndarray([1, 2, 3, 4], [2, 2, 1])</span>
+
+<span class="nx">unsqueeze</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c1">// =&gt; ndarray([1, 2, 3, 4], [1, 2, 2])</span>
+</code></pre>
+<p>Note that ndarrays have no concept of row or column vectors. If you need a matrix explicitly representing a row or column vector, you can use unsqueeze:</p>
+<pre><code class="lang-javascript"><span class="kd">var</span> <span class="nx">show</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&apos;ndarray-show&apos;</span><span class="p">)</span>
+
+<span class="c1">// Create a 3 x 1 matrix by appending a singleton dimension:</span>
+<span class="nx">show</span><span class="p">(</span><span class="nx">unsqueeze</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])))</span>
+<span class="c1">// =&gt; 1.000</span>
+<span class="c1">//    2.000</span>
+<span class="c1">//    3.000</span>
+
+<span class="c1">// Create a 1 x 3 matrix by prepending a singleton dimension:</span>
+<span class="nx">show</span><span class="p">(</span><span class="nx">unsqueeze</span><span class="p">(</span><span class="nx">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]),</span> <span class="mi">0</span><span class="p">))</span>
+<span class="c1">// =&gt; 1.000  2.000  3.000</span>
+</code></pre>
+<h2 id="installation">Installation</h2>
+<pre><code class="lang-javascript"><span class="nx">$</span> <span class="nx">npm</span> <span class="nx">install</span> <span class="nx">ndarray</span><span class="o">-</span><span class="nx">unsqueeze</span>
+</code></pre>
+<h2 id="api">API</h2>
+<h4 id="-require-ndarray-unsqueeze-input-axis-"><code>require(&apos;ndarray-unsqueeze&apos;)(input[, axis])</code></h4>
+<p>Arguments:</p>
+<ul>
+<li><code>input</code>: The input ndarray to be unsqueeze</li>
+<li><code>axes</code> (optional):  An integer index of the dimension at which to insert the singleton dimension. If unspecified, singleton dimension is appended to the shape.</li>
+</ul>
+<p>Returns:
+A new array view of the unsqueezed ndarray (i.e. a new ndarray object with the same underlying data).</p>
+<h2 id="license">License</h2>
+<p>&#xA9; 2016 Ricky Reusser. MIT License.</p>
