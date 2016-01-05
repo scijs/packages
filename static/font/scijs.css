@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'stackgl';
-  src: url('font/stackgl.eot?62919735');
-  src: url('font/stackgl.eot?62919735#iefix') format('embedded-opentype'),
-       url('font/stackgl.woff?62919735') format('woff'),
-       url('font/stackgl.ttf?62919735') format('truetype'),
-       url('font/stackgl.svg?62919735#stackgl') format('svg');
+  font-family: 'scijs';
+  src: url('font/scijs.eot?62919735');
+  src: url('font/scijs.eot?62919735#iefix') format('embedded-opentype'),
+       url('font/scijs.woff?62919735') format('woff'),
+       url('font/scijs.ttf?62919735') format('truetype'),
+       url('font/scijs.svg?62919735#scijs') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -13,14 +13,14 @@
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
-    font-family: 'stackgl';
-    src: url('../font/stackgl.svg?62919735#stackgl') format('svg');
+    font-family: 'scijs';
+    src: url('../font/scijs.svg?62919735#scijs') format('svg');
   }
 }
 */
 
  [class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "stackgl";
+  font-family: "scijs";
   font-style: normal;
   font-weight: normal;
   speak: none;

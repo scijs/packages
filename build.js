@@ -139,6 +139,9 @@ function convertReadme(repo, done) {
     $('img[src*="://badge.fury.io"]').remove()
     $('img[src*="://travis-ci.org"]').remove()
     $('img[src*="://secure.travis-ci.org"]').remove()
+    $('img[src*="://ci.testling.com"]').remove()
+    $('img[src*="://rawgithub.com/hughsk/stability-badges"]').remove()
+
 
     $('h1 img').remove()
 
