@@ -11,7 +11,7 @@ const intro = fs.readFileSync(
   path.join(__dirname, 'dist', 'intro.html')
 , 'utf8')
 
-require('insert-css')(require('stackgl-readme-css'))
+require('insert-css')(require('scijs-readme-css'))
 
 determineTotalCount(meta)
 unindexContributors(meta)
