@@ -1,9 +1,0 @@
-<h1 id="ndarray-blas-trsv-complex"><a target="_blank" href="http://github.com/scijs/ndarray-blas-trsv-complex">ndarray-blas-trsv-complex</a></h1>
-<p><a href="https://travis-ci.org/scijs/ndarray-blas-trsv-complex"></a> <a href="http://badge.fury.io/js/ndarray-blas-trsv-complex"></a></p>
-<p>BLAS Level 2 TRSV (triangular solve) for complex <a href="https://github.com/scijs/ndarray">ndarrays</a></p>
-<h2 id="usage">Usage</h2>
-<p><em>Note</em>: This module assumes the triangular matrices are stored in a dense, square matrix. Packed triangular arrays are on the todo list.</p>
-<h5 id="-trsv-a_r-a_i-x_r-x_i-uplo-"><code>trsv( A_r, A_i, x_r, x_i [, uplo] )</code></h5>
-<p>Calculate <code>x &lt;- A^-1 x</code> for the real and complex parts <code>A_r</code> and <code>A_i</code> of the upper triangular matrix A using back-substitution. Data below the diagonal is ignored.  If <code>uplo</code> is &apos;lo&apos;, uses the lower triangular portion of A and performs forward-substitution instead. Result overwrites the x vectors.</p>
-<h2 id="credits">Credits</h2>
-<p>(c) 2015 Ricky Reusser. MIT License</p>
